@@ -2,17 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>note-example</artifactId>
+        <groupId>com.redtide</groupId>
+        <version>1.0.0</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.redtide</groupId>
-    <artifactId>note-example</artifactId>
-    <version>1.0.0</version>
-    <modules>
-        <module>example-0106</module>
-    </modules>
-    <packaging>pom</packaging>
+    <artifactId>example-0106</artifactId>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>1.7</java.version>
         <downloadSources>true</downloadSources>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
