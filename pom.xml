@@ -8,6 +8,7 @@
     <version>1.0.0</version>
     <modules>
         <module>example-0106</module>
+        <module>example-0110</module>
     </modules>
     <packaging>pom</packaging>
 
