@@ -7,6 +7,10 @@ Java学习笔记
 ### 2.集合(Set、List)
 
 ### 3.Map(HashMap、LinkedHashMap、TreeMap、Hashtable、ConcurrentHashMap)
+    非线程安全：HashMap、LinkedHashMap、TreeMap
+    线程安全：Hashtable、ConcurrentHashMap
+    
+HashMap、有序集合LinkedHashMap、TreeMap都属于非线程安全，三者的区别：https://www.cnblogs.com/acm-bingzi/p/javaMap.html
 
 COnHasMap（ConcurrentHashMap）这个必问的
 ConcurrentHashMap原理分析：https://www.cnblogs.com/ITtangtang/p/3948786.html
@@ -58,6 +62,8 @@ Cglib代理：
 ### 11、transient volatile
 transient相关：
 volatile相关：https://www.cnblogs.com/dolphin0520/p/3920373.html
+volatile：保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。
+         禁止进行指令重排序。
 
 ### 12、Java类加载
 
@@ -114,6 +120,7 @@ volatile相关：https://www.cnblogs.com/dolphin0520/p/3920373.html
 JAVA中锁的对比：https://www.cnblogs.com/zhimingyang/p/5702752.html
 乐观锁、悲观锁：https://blog.csdn.net/qq_34337272/article/details/81072874
 公平锁、非公平锁
+创建一个线程的方式：Thread、Runnable、Callable
 
 在并发编程中，我们通常会遇到以下三个问题：原子性问题，可见性问题，有序性问题。
 
@@ -127,7 +134,9 @@ JAVA中锁的对比：https://www.cnblogs.com/zhimingyang/p/5702752.html
 # 五、JDK
 ### 1.JDK源码
 ### 2.JDK6新特性
+
 ### 3.JDK7新特性
+
 ### 4.JDK8新特性
     hashMap增加红黑树：https://blog.csdn.net/lch_2016/article/details/81045480
 ### 5.JDK9新特性
@@ -135,9 +144,21 @@ JAVA中锁的对比：https://www.cnblogs.com/zhimingyang/p/5702752.html
 
 # 六、JVM
 ### 1.OOM
+    -XX:+HeapDumpOnOutOfMemoryError
+    该配置会把快照保存在用户目录或者tomcat目录下，也可以通过 -XX:HeapDumpPath=/tmp/heapdump.hprof 来显示指定路径
+    
+    此外，OnOutOfMemoryError参数允许用户指定当出现oom时，指定某个脚本来完成一些动作。
+    -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/heapdump.hprof -XX:OnOutOfMemoryError="sh ~/test.sh"
+https://blog.csdn.net/xiaoliuliu2050/article/details/51226282
+https://blog.csdn.net/gaochao1995/article/details/38660241
+jmap
+
 ### 2.GC管理
 ### 3.Java内存模型
-### 4.
+### 4.堆、栈
+### 5.JVM常用参数
+    -Xverifynone：关闭类加载时的验证功能
+    
 
 # 七、框架篇
 ### 1.Spring
