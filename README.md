@@ -4,26 +4,31 @@ Java学习笔记
 # 一、Java基础
 ### 1.字符串(String、StringBuilder、StringBuffer)
     String：内部使用final char value[]存储，由于使用final关键字修饰，对象初始化后不能修改，属于定长字符串。
-    StringBuilder：内部使用char value[]存储，非线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用byte value[]存储。
-    StringBuffer：内部使用char value[]存储，线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用byte value[]存储。
+    StringBuilder：内部使用char value[]存储，非线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用
+    byte value[]存储。
+    StringBuffer：内部使用char value[]存储，线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用
+    byte value[]存储。
     
 ### 2.集合(Set、List)
     List和Set都继承Collection接口。
     List：1.可以允许重复的对象。
     　　  2.可以插入多个null元素。
          3.是一个有序容器，保持了每个元素的插入顺序，输出的顺序就是插入的顺序。
-         4.常用的实现类有 ArrayList、LinkedList 和 Vector。ArrayList 最为流行，它提供了使用索引的随意访问，而 LinkedList 则对于经常需要从 List 中添加或删除元素的场合更为合适。
+         4.常用的实现类有 ArrayList、LinkedList 和 Vector。ArrayList 最为流行，它提供了使用索引的随意访问，而 LinkedList
+         则对于经常需要从 List 中添加或删除元素的场合更为合适。
             
     Set: 1.不允许重复对象
     　　  2.无序容器，你无法保证每个元素的存储顺序，TreeSet通过 Comparator  或者 Comparable 维护了一个排序顺序。
          3.只允许一个 null 元素
-         4.Set 接口最流行的几个实现类是 HashSet、LinkedHashSet 以及 TreeSet。最流行的是基于 HashMap 实现的 HashSet；TreeSet 还实现了 SortedSet 接口，因此 TreeSet 是一个根据其 compare() 和 compareTo() 的定义进行排序的有序容器。        
+         4.Set 接口最流行的几个实现类是 HashSet、LinkedHashSet 以及 TreeSet。最流行的是基于 HashMap 实现的 HashSet；
+         TreeSet 还实现了 SortedSet 接口，因此 TreeSet 是一个根据其 compare() 和 compareTo() 的定义进行排序的有序容器。        
     
 ### 3.Map(HashMap、LinkedHashMap、TreeMap、Hashtable、ConcurrentHashMap)
     非线程安全：HashMap、LinkedHashMap、TreeMap
     线程安全：Hashtable、ConcurrentHashMap
     
-    HashMap、有序集合LinkedHashMap、TreeMap都属于非线程安全，三者的区别：https://www.cnblogs.com/acm-bingzi/p/javaMap.html
+    HashMap、有序集合LinkedHashMap、TreeMap都属于非线程安全，三者的区别：
+    https://www.cnblogs.com/acm-bingzi/p/javaMap.html
 
     COnHasMap（ConcurrentHashMap）这个必问的
     ConcurrentHashMap原理分析：https://www.cnblogs.com/ITtangtang/p/3948786.html
@@ -31,15 +36,22 @@ Java学习笔记
     hash原理：https://www.cnblogs.com/chengxiao/p/6059914.html
     Map本质就是数组（物理存储结构），HashMap即是采用了链地址法，也就是数组+链表的方式
 
-    Hashtable：继承Dictionary类，是遗留类，很多映射的常用功能与HashMap类似，线程安全，但是不建议在新代码使用，不需要线程安全的场合可以用HashMap替换，需要线程安全的场合可以用ConcurrentHashMap替换。
-    LinkedHashMap：是HashMap的一个子类，保存了记录的插入顺序，在用Iterator遍历LinkedHashMap时，先得到的记录肯定是先插入的，也可以在构造时带参数，按照访问次序排序。
+    Hashtable：继承Dictionary类，是遗留类，很多映射的常用功能与HashMap类似，线程安全，但是不建议在新代码使用，不需要线程安
+    全的场合可以用HashMap替换，需要线程安全的场合可以用ConcurrentHashMap替换。
+    LinkedHashMap：是HashMap的一个子类，保存了记录的插入顺序，在用Iterator遍历LinkedHashMap时，先得到的记录肯定是先插入
+    的，也可以在构造时带参数，按照访问次序排序。
 
-    TreeMap：继承AbstractMap,实现SortedMap接口，能够把它保存的记录根据键排序，默认是按键值的升序排序，也可以指定排序的比较器，当用Iterator遍历TreeMap时，得到的记录是排过序的。如果使用排序的映射，建议使用TreeMap。在使用TreeMap时，key必须实现Comparable接口或者在构造TreeMap传入自定义的Comparator，否则会在运行时抛出java.lang.ClassCastException类型的异常。
-    哈希表（hash table）也叫散列表，是一种非常重要的数据结构，应用场景及其丰富，许多缓存技术（比如memcached）的核心其实就是在内存中维护一张大的哈希表，而HashMap的实现原理也常常出现在各类的面试题中，重要性可见一斑。本文会对java集合框架中的对应实现HashMap的实现原理进行讲解，然后会对JDK7的HashMap源码进行分析。
+    TreeMap：继承AbstractMap,实现SortedMap接口，能够把它保存的记录根据键排序，默认是按键值的升序排序，也可以指定排序的比
+    较器，当用Iterator遍历TreeMap时，得到的记录是排过序的。如果使用排序的映射，建议使用TreeMap。在使用TreeMap时，key必须
+    实现Comparable接口或者在构造TreeMap传入自定义的Comparator，否则会在运行时抛出java.lang.ClassCastException类型的异常。
+    哈希表（hash table）也叫散列表，是一种非常重要的数据结构，应用场景及其丰富，许多缓存技术（比如memcached）的核心其实就是
+    在内存中维护一张大的哈希表，而HashMap的实现原理也常常出现在各类的面试题中，重要性可见一斑。本文会对java集合框架中的对应实
+    现HashMap的实现原理进行讲解，然后会对JDK7的HashMap源码进行分析。
     
 ### 4.Java反射
     主要是指程序可以访问、检测和修改它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和相关的语义。 
-    反射是java中一种强大的工具，能够使我们很方便的创建灵活的代码，这些代码可以再运行时装配，无需在组件之间进行源代码链接。但是反射使用不当会成本很高！
+    反射是java中一种强大的工具，能够使我们很方便的创建灵活的代码，这些代码可以再运行时装配，无需在组件之间进行源代码链接。但是
+    反射使用不当会成本很高！
 
 ### 5.Java注解
 
@@ -63,7 +75,8 @@ Java学习笔记
     若不对clone()方法进行改写，则调用此方法得到的对象即为浅拷贝。
 
 ### 10、Java代理
-    代理(Proxy)是一种设计模式,提供了对目标对象另外的访问方式;即通过代理对象访问目标对象.这样做的好处是:可以在目标对象实现的基础上,增强额外的功能操作,即扩展目标对象的功能.
+    代理(Proxy)是一种设计模式,提供了对目标对象另外的访问方式;即通过代理对象访问目标对象.这样做的好处是:可以在目标对象实现
+    的基础上,增强额外的功能操作,即扩展目标对象的功能.
     这里使用到编程中的一个思想:不要随意去修改别人已经写好的代码或者方法,如果需改修改,可以通过代理的方式来扩展该方法
     https://www.cnblogs.com/cenyu/p/6289209.html
     静态代理：
@@ -81,9 +94,11 @@ Java学习笔记
     
     JVM提供了以下3种系统的类加载器：
     
-    启动类加载器（Bootstrap ClassLoader）：最顶层的类加载器，负责加载 JAVA_HOME\lib 目录中的，或通过-Xbootclasspath参数指定路径中的，且被虚拟机认可（按文件名识别，如rt.jar）的类。
+    启动类加载器（Bootstrap ClassLoader）：最顶层的类加载器，负责加载 JAVA_HOME\lib 目录中的，或通过-Xbootclasspath
+    参数指定路径中的，且被虚拟机认可（按文件名识别，如rt.jar）的类。
     扩展类加载器(Extension ClassLoader)：负责加载 JAVA_HOME\lib\ext 目录中的，或通过java.ext.dirs系统变量指定路径中的类库。
-    应用程序类加载器(Application ClassLoader)：也叫做系统类加载器，可以通过getSystemClassLoader()获取，负责加载用户路径（classpath）上的类库。如果没有自定义类加载器，一般这个就是默认的类加载器。
+    应用程序类加载器(Application ClassLoader)：也叫做系统类加载器，可以通过getSystemClassLoader()获取，负责加载用户
+    路径（classpath）上的类库。如果没有自定义类加载器，一般这个就是默认的类加载器。
    
 # 二、设计模式
     java的设计模式大体上分为三大类：
