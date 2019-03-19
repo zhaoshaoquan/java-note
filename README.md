@@ -64,18 +64,20 @@ Java学习笔记
       @SuppressWarnings：关闭不当编译器警告信息。
   - **四种元注解功能说明**：  
       **@Target**：表示该注解可以用于什么地方，可能的ElementType参数有：
-       1. CONSTRUCTOR：构造器的声明
-       2. FIELD：域声明（包括enum实例）
-       3. LOCAL_VARIABLE：局部变量声明
-       4. METHOD：方法声明
-       5. PACKAGE：包声明
-       6. PARAMETER：参数声明
-       7. TYPE：类、接口（包括注解类型）或enum声明
+      
+        1. CONSTRUCTOR     ：构造器的声明
+        2. FIELD           ：域声明（包括enum实例）
+        3. LOCAL_VARIABLE  ：局部变量声明
+        4. METHOD          ：方法声明
+        5. PACKAGE         ：包声明
+        6. PARAMETER       ：参数声明
+        7. TYPE            ：类、接口（包括注解类型）或enum声明
        
       **@Retention**：表示需要在什么级别保存该注解信息。可选的RetentionPolicy参数包括：  
-       1. SOURCE：注解将被编译器丢弃
-       2. CLASS：注解在class文件中可用，但会被VM丢弃
-       3. RUNTIME：VM将在运行期间保留注解，因此可以通过反射机制读取注解的信息。
+       
+        1. SOURCE          ：注解将被编译器丢弃
+        2. CLASS           ：注解在class文件中可用，但会被VM丢弃
+        3. RUNTIME         ：VM将在运行期间保留注解，因此可以通过反射机制读取注解的信息。
        
       **@Document**：将注解包含在Javadoc中  
       **@Inherited**：允许子类继承父类中的注解
