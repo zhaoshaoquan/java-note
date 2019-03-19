@@ -45,15 +45,42 @@ Java学习笔记
     较器，当用Iterator遍历TreeMap时，得到的记录是排过序的。如果使用排序的映射，建议使用TreeMap。在使用TreeMap时，key必须
     实现Comparable接口或者在构造TreeMap传入自定义的Comparator，否则会在运行时抛出java.lang.ClassCastException类型的
     异常。哈希表（hash table）也叫散列表，是一种非常重要的数据结构，应用场景及其丰富，许多缓存技术（比如memcached）的核心其
-    实就是在内存中维护一张大的哈希表，而HashMap的实现原理也常常出现在各类的面试题中，重要性可见一斑。本文会对java集合框架中的
-    对应实现HashMap的实现原理进行讲解，然后会对JDK7的HashMap源码进行分析。
+    实就是在内存中维护一张大的哈希表，而HashMap的实现原理也常常出现在各类的面试题中，重要性可见一斑。
     
 ### 4.Java反射
     主要是指程序可以访问、检测和修改它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和
     相关的语义。反射是java中一种强大的工具，能够使我们很方便的创建灵活的代码，这些代码可以再运行时装配，无需在组件之间进行源代
     码链接。但是反射使用不当会成本很高！
+    反射的实现主要借助以下四个类：
+    Class：类的对象
+    Constructor：类的构造方法
+    Field：类中的属性对象
+    Method：类中的方法对象
 
 ### 5.Java注解
+    按运行机制（注解存在于程序的那个阶段）将注解分为三类：源码注解(只在源码存在)、编译注解(在class文件中也存在)、运行时注
+    解(在运行阶段仍然起作用)。
+    JDK自带的注解（Java目前只内置了三种标准注解：@Override、@Deprecated、@SuppressWarnings，以及四种
+    元注解：@Target、@Retention、@Documented、@Inherited）。
+    三种标准注解功能说明：
+      @Override：表示当前的方法定义将覆盖超类中的方法。
+      @Deprecated：使用了注解为它的元素编译器将发出警告，因为注解@Deprecated是不赞成使用的代码，被弃用的代码。
+      @SuppressWarnings：关闭不当编译器警告信息。
+    四种元注解功能说明：
+      @Target：表示该注解可以用于什么地方，可能的ElementType参数有：
+        CONSTRUCTOR：构造器的声明
+        FIELD：域声明（包括enum实例）
+        LOCAL_VARIABLE：局部变量声明
+        METHOD：方法声明
+        PACKAGE：包声明
+        PARAMETER：参数声明
+        TYPE：类、接口（包括注解类型）或enum声明
+      @Retention：表示需要在什么级别保存该注解信息。可选的RetentionPolicy参数包括：
+        SOURCE：注解将被编译器丢弃
+        CLASS：注解在class文件中可用，但会被VM丢弃
+        RUNTIME：VM将在运行期间保留注解，因此可以通过反射机制读取注解的信息。
+      @Document：将注解包含在Javadoc中
+      @Inherited：允许子类继承父类中的注解
 
 ### 6.Java泛型
     JAVA的泛型擦除：https://www.cnblogs.com/doucheyard/p/6855823.html
@@ -81,13 +108,13 @@ Java学习笔记
     https://www.cnblogs.com/cenyu/p/6289209.html
     静态代理：
     动态代理：
-    Cglib代理：
+    CGlib代理：
 
 ### 11、transient volatile
     transient相关：
     volatile相关：https://www.cnblogs.com/dolphin0520/p/3920373.html
     volatile：保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。
-             禁止进行指令重排序。
+     禁止进行指令重排序。
 
 ### 12、Java类加载
     类加载器实现的功能是即为加载阶段获取二进制字节流的时候。
@@ -119,6 +146,7 @@ Java学习笔记
     　　一个实体应当尽量少的与其他实体之间发生相互作用，使得系统功能模块相对独立。
     6、合成复用原则（Composite Reuse Principle）
     　　原则是尽量使用合成/聚合的方式，而不是使用继承。继承实际上破坏了类的封装性，超类的方法可能会被子类修改。
+    
 ### 1.工厂方法模式
 ### 2.抽象工厂模式
 ### 3.单例模式
@@ -166,13 +194,16 @@ Java学习笔记
 
 # 五、JDK
 ### 1.JDK源码
-### 2.JDK6新特性
+### 2.JDK5新特性
+    java注解在java1.5版本引入。
+    
+### 3.JDK6新特性
 
-### 3.JDK7新特性
+### 4.JDK7新特性
 
-### 4.JDK8新特性
+### 5.JDK8新特性
     hashMap增加红黑树：https://blog.csdn.net/lch_2016/article/details/81045480
-### 5.JDK9新特性
+### 6.JDK9新特性
     https://baijiahao.baidu.com/s?id=1593429162250494010&wfr=spider&for=pc
 
 # 六、JVM
@@ -268,8 +299,11 @@ Java学习笔记
 ### 2.查询优化
     数据库集中在 索引那部分，和查询优化。
 ### 3.锁机制
-    行锁、表锁、乐观锁、悲观锁
-
+    行锁、表锁、乐观锁、悲观锁  
+1. 行锁  ddd   
+2. 表锁
+3. 乐观锁
+4. 悲观锁
 
 # 十、中间件
 ### 1.Redis
