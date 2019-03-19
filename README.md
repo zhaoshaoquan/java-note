@@ -58,9 +58,9 @@ Java学习笔记
     Method：类中的方法对象
 
 ### 5.Java注解
-    按运行机制（注解存在于程序的那个阶段）将注解分为三类：源码注解(只在源码存在)、编译注解(在class文件中也存在)、运行时注
+      按运行机制（注解存在于程序的那个阶段）将注解分为三类：源码注解(只在源码存在)、编译注解(在class文件中也存在)、运行时注
     解(在运行阶段仍然起作用)。
-    JDK自带的注解（Java目前只内置了三种标准注解：@Override、@Deprecated、@SuppressWarnings，以及四种
+      JDK自带的注解（Java目前只内置了三种标准注解：@Override、@Deprecated、@SuppressWarnings，以及四种
     元注解：@Target、@Retention、@Documented、@Inherited）。
     三种标准注解功能说明：
       @Override：表示当前的方法定义将覆盖超类中的方法。
@@ -83,6 +83,7 @@ Java学习笔记
       @Inherited：允许子类继承父类中的注解
 
 ### 6.Java泛型
+    Java在泛型设计上是一种“伪泛型”，存在着泛型擦除。
     JAVA的泛型擦除：https://www.cnblogs.com/doucheyard/p/6855823.html
     泛型继承，通配符，泛型反射：https://blog.csdn.net/vi_young_95/article/details/82979358
     
@@ -242,6 +243,32 @@ Java学习笔记
         -Xcomp：编译模式
         -Xmixed：混合模式
     9、JVM启动时添加-verbose:class参数，在项目启动时会把项目所加的jar包都打印出来。
+    
+    
+    jstat：是JDK自带的一个轻量级小工具。[更多](https://www.jianshu.com/p/213710fb9e40)
+      option配置如下：
+        -class                显示ClassLoad的相关信息；
+        -compiler             显示JIT编译的相关信息；
+        -gc                   显示和gc相关的堆信息；
+        -gccapacity           显示各个代的容量以及使用情况；
+        -gcmetacapacity       显示metaspace的大小
+        -gcnew                显示新生代信息；
+        -gcnewcapacity        显示新生代大小和使用情况；
+        -gcold                显示老年代和永久代的信息；
+        -gcoldcapacity        显示老年代的大小；
+        -gcutil               显示垃圾收集信息；
+        -gccause              显示垃圾回收的相关信息（通-gcutil）,同时显示最后一次或当前正在发生的垃圾回收的诱因；
+        -printcompilation     输出JIT编译的方法信息；
+---    
+    java -Dio.netty.leakDetectionLevel=advanced 
+    -Djava.net.preferIPv4Stack=true 
+    -Dsun.net.inetaddr.ttl=30 
+    -Xms1024m -Xmx5120m  
+    -XX:+UseParallelGC -XX:ParallelGCThreads=4 
+    -XX:+UseParallelOldGC -XX:+UseAdaptiveSizePolicy 
+    -XX:ErrorFile=${LOGDIR}/hs_err_%p.log -XX:-OmitStackTraceInFastThrow 
+    -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=${LOGDIR}/ -jar $path  
+    -Dspring.config.location=application.properties
     
 ### 1.OOM
     -XX:+HeapDumpOnOutOfMemoryError
