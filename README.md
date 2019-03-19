@@ -1,5 +1,4 @@
-# java-note
-Java学习笔记
+# Java笔记
 
 # 一、Java基础
 ### 1.字符串(String、StringBuilder、StringBuffer)
@@ -9,8 +8,8 @@ Java学习笔记
     
 ### 2.集合(Set、List)
     List和Set都继承Collection接口。
-    List：1.可以允许重复的对象。
-    　　  2.可以插入多个null元素。
+         1.可以允许重复的对象。
+         2.可以插入多个null元素。
          3.是一个有序容器，保持了每个元素的插入顺序，输出的顺序就是插入的顺序。
          4.常用的实现类有 ArrayList、LinkedList 和 Vector。ArrayList 最为流行，它提供了使用索引的随意访问，而 LinkedList
          则对于经常需要从 List 中添加或删除元素的场合更为合适。
@@ -122,7 +121,7 @@ public class DriverTest{
 ```
 
 ### 8.JNI
-- JNI(Java Native Interface)意为JAVA本地调用，它允许Java代码和其他语言写的代码进行交互，简单的说，一种在Java虚拟机控制下执行代码的标准机制。
+- JNI(Java Native Interface)意为Java本地调用，它允许Java代码和其他语言写的代码进行交互，简单的说，一种在Java虚拟机控制下执行代码的标准机制。
 - JNI函数表的组成就像C++的虚函数表，虚拟机可以运行多张函数表。
 - JNI接口指针仅在当前线程中起作用，指针不能从一个线程进入另一个线程，但可以在不同的线程中调用本地方法。
 
@@ -235,35 +234,35 @@ public class DriverTest{
     https://baijiahao.baidu.com/s?id=1593429162250494010&wfr=spider&for=pc
 
 # 六、JVM
-    1、程序计数器是一块较小的内存空间，用于记录JAVA中的每个线程当前执行的指令，各个线程相互独立；这也是唯一一个在JAVA虚拟机规范中
+    1、程序计数器是一块较小的内存空间，用于记录Java中的每个线程当前执行的指令，各个线程相互独立；这也是唯一一个在Java虚拟机规范中
     没有规定任何OutOfMemoryError（内存溢出）情况的区域。
-    2、JAVA虚拟机栈和程序计数器一样也是线程私有的，用于描述JAVA方法执行的内存模型（每个方法执行时都会创建一个栈帧），用于存储局部
+    2、Java虚拟机栈和程序计数器一样也是线程私有的，用于描述Java方法执行的内存模型（每个方法执行时都会创建一个栈帧），用于存储局部
     变量、操作数栈、动态链接、方法出口等。
     3、当线程请求的栈深度大于虚拟机所允许的深度时，则会抛出StackOverflowError异常。如果虚拟机栈动态扩展时无法申请到足够的内存，
     则会抛出OutOfMemoryError异常。
-    4、本地方法栈与虚拟机栈的作用非常相似，它们的区别在于JAVA虚拟机栈为虚拟机执行JAVA方法（也就是字节码）服务，本地方法栈则为虚拟
+    4、本地方法栈与虚拟机栈的作用非常相似，它们的区别在于Java虚拟机栈为虚拟机执行Java方法（也就是字节码）服务，本地方法栈则为虚拟
     机使用Native方法服务。本地方法栈也会抛出StackOverflowError和OutOfMemoryError异常。
-    5、JAVA堆（Java Heap），JAVA堆是虚拟机所有管理的内存中最大的一块，也是被所有线程共享的一块内存区域，是在虚拟机启动时创建，
+    5、Java堆（Java Heap），Java堆是虚拟机所有管理的内存中最大的一块，也是被所有线程共享的一块内存区域，是在虚拟机启动时创建，
     此内存的唯一目的是存放对象实例。
-    6、JAVA堆是垃圾收集器管理的主要区域，因此也被称做“GC堆”（Garbage Collected Heap）；JAVA中的GC一般都是使用分代收集算法；
-    根据JAVA虚拟机规范规定，JAVA堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可。
+    6、Java堆是垃圾收集器管理的主要区域，因此也被称做“GC堆”（Garbage Collected Heap）；Java中的GC一般都是使用分代收集算法；
+    根据Java虚拟机规范规定，Java堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可。
     7、方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，用于存储已经被虚拟机加载的类信息、常量、静态变量、即时编译
     器编译后的代码。
 
 ---    
     
-    1、JAVA堆是垃圾收集器管理的主要区域，因此也被称做“GC堆”（Garbage Collected Heap）。JAVA中的GC一般都是使用分代收集算法。
-    2、根据JAVA虚拟机规范规定，JAVA堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可。
+    1、Java堆是垃圾收集器管理的主要区域，因此也被称做“GC堆”（Garbage Collected Heap）。Java中的GC一般都是使用分代收集算法。
+    2、根据Java虚拟机规范规定，Java堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可。
     3、运行时常量池（Runtime Constant Pool）是方法区的一部分，可以使用String的一个本地方法把字符串添加到常量池中（public 
     native String intern()）。从JDK7开始，字符串常量和符号引用等就被移出永久代：符号引用迁移至系统堆内存（Native Heap）；
     字符串字面量移至Java堆（Java Heap）。
-    4、直接内存（Direct Memory），直接内存的分配不会受到JAVA堆大小的限制。
+    4、直接内存（Direct Memory），直接内存的分配不会受到Java堆大小的限制。
     5、对象存活判断：引用计数：对象新增一个引用，计数增加1；可达性分析：从GC Roots开始向下搜索，经历的链路成为引用链，没有被引
     用链关联的引用则为不可用对象（Hotspot默认方式）。
     6、共享类数据（CDS）是Hotspot JVM 5.0 的时候引入的新特性。在 JVM 安装过程中，安装进程会加载一系列核心 JVM 类（比如
     rt.jar）到一个共享的内存映射区域。CDS 减少了加载这些类需要的时间，提高了 JVM 启动的速度，允许这些类被不同的 JVM 实例共
     享，同时也减少了内存消耗。
-    7、ClassLoader加载也是属于JDK的一个安全机制，用于防止用户编写的程序覆盖JAVA SE包中的内容（采用双亲委派机制实现）。JDK
+    7、ClassLoader加载也是属于JDK的一个安全机制，用于防止用户编写的程序覆盖Java SE包中的内容（采用双亲委派机制实现）。JDK
     只会保证程序的安全性，但不会保证文件的安全性（手动更改rt.jar中的class）。
     8、HotSpot虚拟机可以配置为以下运行模式（通过java -version就可以查看虚拟机的运行模式）:
         -Xint：解释模式
@@ -293,8 +292,8 @@ public class DriverTest{
     jmap
 
 ### 2.GC管理
-    GC主要是对堆内存进行回收、
-    现在收集器基本都是采用的分代收集算法，所以Java 堆中还可以细分为：新生代和老年代；
+- GC主要是对堆内存进行回收，现在收集器基本都是采用的分代收集算法，所以Java堆中还可以细分为新生代和老年代。
+
 **jstat**：JDK自带的一个轻量级监控工具。[更多](https://www.jianshu.com/p/213710fb9e40)  
 - option配置如下：
    
@@ -311,7 +310,7 @@ public class DriverTest{
       -gccause            ：显示垃圾回收的相关信息（通-gcutil）,同时显示最后一次或当前正在发生的垃圾回收的诱因；
       -printcompilation   ：输出JIT编译的方法信息；
 
-JAVA调优命令详解：https://blog.csdn.net/fenglibing/article/details/6411999
+Java调优命令详解：https://blog.csdn.net/fenglibing/article/details/6411999
 https://blog.csdn.net/tzs_1041218129/article/details/61630981
 
 ### 3.Java内存模型
