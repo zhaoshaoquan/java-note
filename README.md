@@ -247,18 +247,18 @@ Java学习笔记
 ---    
 **jstat**：JDK自带的一个轻量级监控工具。[更多](https://www.jianshu.com/p/213710fb9e40)  
 - option配置如下：  
-  1. -class                 显示ClassLoad的相关信息；  
-  2. -compiler             显示JIT编译的相关信息；  
-  3. -gc                   显示和gc相关的堆信息；  
-  4. -gccapacity           显示各个代的容量以及使用情况；  
-  5. -gcmetacapacity       显示metaspace的大小；  
-  6. -gcnew                显示新生代信息；  
-  7. -gcnewcapacity        显示新生代大小和使用情况；  
-  8. -gcold                显示老年代和永久代的信息；  
-  9. -gcoldcapacity        显示老年代的大小；  
-  10. -gcutil              显示垃圾收集信息；  
-  11. -gccause             显示垃圾回收的相关信息（通-gcutil）,同时显示最后一次或当前正在发生的垃圾回收的诱因；  
-  12. -printcompilation    输出JIT编译的方法信息；  
+  1. -class                ：显示ClassLoad的相关信息；  
+  2. -compiler             ：显示JIT编译的相关信息；  
+  3. -gc                   ：显示和gc相关的堆信息；  
+  4. -gccapacity           ：显示各个代的容量以及使用情况；  
+  5. -gcmetacapacity       ：显示metaspace的大小；  
+  6. -gcnew                ：显示新生代信息；  
+  7. -gcnewcapacity        ：显示新生代大小和使用情况；  
+  8. -gcold                ：显示老年代和永久代的信息；  
+  9. -gcoldcapacity        ：显示老年代的大小；  
+  10. -gcutil              ：显示垃圾收集信息；  
+  11. -gccause             ：显示垃圾回收的相关信息（通-gcutil）,同时显示最后一次或当前正在发生的垃圾回收的诱因；  
+  12. -printcompilation    ：输出JIT编译的方法信息；  
 ---    
     java -Dio.netty.leakDetectionLevel=advanced 
     -Djava.net.preferIPv4Stack=true 
