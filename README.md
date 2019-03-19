@@ -3,9 +3,9 @@ Java学习笔记
 
 # 一、Java基础
 ### 1.字符串(String、StringBuilder、StringBuffer)
-- String：内部使用final char value[]存储，由于使用final关键字修饰，对象初始化后不能修改，属于定长字符串。
-- StringBuilder：内部使用char value[]存储，非线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用byte value[]存储。
-- StringBuffer：内部使用char value[]存储，线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用byte value[]存储。
+- **String**：内部使用final char value[]存储，由于使用final关键字修饰，对象初始化后不能修改，属于定长字符串。
+- **StringBuilder**：内部使用char value[]存储，非线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用byte value[]存储。
+- **StringBuffer**：内部使用char value[]存储，线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用byte value[]存储。
     
 ### 2.集合(Set、List)
     List和Set都继承Collection接口。
@@ -56,28 +56,28 @@ Java学习笔记
     Method：类中的方法对象
 
 ### 5.Java注解
-      按运行机制（注解存在于程序的那个阶段）将注解分为三类：源码注解(只在源码存在)、编译注解(在class文件中也存在)、运行时注
-    解(在运行阶段仍然起作用)。
-      JDK自带的注解（Java目前只内置了三种标准注解：@Override、@Deprecated、@SuppressWarnings，以及四种
-    元注解：@Target、@Retention、@Documented、@Inherited）。
-    三种标准注解功能说明：
-      @Override：表示当前的方法定义将覆盖超类中的方法。
-      @Deprecated：使用了注解为它的元素编译器将发出警告，因为注解@Deprecated是不赞成使用的代码，被弃用的代码。
+- 按运行机制（注解存在于程序的那个阶段）将注解分为三类：源码注解(只在源码存在)、编译注解(在class文件中也存在)、运行时注解(在运行阶段仍然起作用)。
+- JDK自带的注解（Java目前只内置了三种标准注解：@Override、@Deprecated、@SuppressWarnings，以及四种元注解：@Target、@Retention、@Documented、@Inherited）。
+  - **三种标准注解功能说明**：  
+      @Override：表示当前的方法定义将覆盖超类中的方法。  
+      @Deprecated：使用了注解为它的元素编译器将发出警告，因为注解@Deprecated是不赞成使用的代码，被弃用的代码。  
       @SuppressWarnings：关闭不当编译器警告信息。
-    四种元注解功能说明：
+  - **四种元注解功能说明**：  
       @Target：表示该注解可以用于什么地方，可能的ElementType参数有：
-        CONSTRUCTOR：构造器的声明
-        FIELD：域声明（包括enum实例）
-        LOCAL_VARIABLE：局部变量声明
-        METHOD：方法声明
-        PACKAGE：包声明
-        PARAMETER：参数声明
-        TYPE：类、接口（包括注解类型）或enum声明
-      @Retention：表示需要在什么级别保存该注解信息。可选的RetentionPolicy参数包括：
-        SOURCE：注解将被编译器丢弃
-        CLASS：注解在class文件中可用，但会被VM丢弃
-        RUNTIME：VM将在运行期间保留注解，因此可以通过反射机制读取注解的信息。
-      @Document：将注解包含在Javadoc中
+       1. CONSTRUCTOR：构造器的声明
+       2. FIELD：域声明（包括enum实例）
+       3. LOCAL_VARIABLE：局部变量声明
+       4. METHOD：方法声明
+       5. PACKAGE：包声明
+       6. PARAMETER：参数声明
+       7. TYPE：类、接口（包括注解类型）或enum声明
+       
+      @Retention：表示需要在什么级别保存该注解信息。可选的RetentionPolicy参数包括：  
+       1. SOURCE：注解将被编译器丢弃
+       2. CLASS：注解在class文件中可用，但会被VM丢弃
+       3. RUNTIME：VM将在运行期间保留注解，因此可以通过反射机制读取注解的信息。
+       
+      @Document：将注解包含在Javadoc中  
       @Inherited：允许子类继承父类中的注解
 
 ### 6.Java泛型
