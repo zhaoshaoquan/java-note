@@ -71,7 +71,10 @@ Java学习笔记
         4. METHOD          ：方法声明
         5. PACKAGE         ：包声明
         6. PARAMETER       ：参数声明
-        7. TYPE            ：类、接口（包括注解类型）或enum声明
+        7. ANNOTATION_TYPE ：注解类型声明
+        8. TYPE_PARAMETER  ：类型参数声明，泛型类型定义使用（1.8新增）
+        9. TYPE_USE        ：类型使用声明，变量定义，可以是局部变量（1.8新增）
+        10. TYPE           ：类、接口（包括注解类型）或enum声明
        
       **@Retention**：表示需要在什么级别保存该注解信息。可选的RetentionPolicy参数包括：  
        
@@ -90,6 +93,25 @@ Java学习笔记
     - 泛型继承，通配符，泛型反射：https://blog.csdn.net/vi_young_95/article/details/82979358
     
 ### 7.JDBC
+```java
+  //注册驱动
+  Class.forName("com.mysql.jdbc.Driver");
+  //创建连接
+  Connection conn = DriverManager.getConnection(“jdbc:mysql://localhost:3306/test”,"root","password");
+  //创建SQL语句
+  String sql = "INSERT INTO test(name,sex,age)VALUES(?,?,?)";
+  PreparedStatement pstmt = conn.prepareStatement(sql);
+  //设置参数
+  pstmt.setString(1,"张某某");
+  pstmt.setString(2,"男");
+  pstmt.setString(3,20);
+  //执行SQL语句
+  int i = pstmt.executeUpdate();
+  //关闭PreparedStatement
+  pstmt.close();
+  //关闭连接
+  conn.close();
+```
 
 ### 8.JNI
 
@@ -120,15 +142,11 @@ Java学习笔记
      禁止进行指令重排序。
 
 ### 12、Java类加载
-    类加载器实现的功能是即为加载阶段获取二进制字节流的时候。
-    
-    JVM提供了以下3种系统的类加载器：
-    
-    启动类加载器（Bootstrap ClassLoader）：最顶层的类加载器，负责加载 JAVA_HOME\lib 目录中的，或通过-Xbootclasspath
-    参数指定路径中的，且被虚拟机认可（按文件名识别，如rt.jar）的类。
-    扩展类加载器(Extension ClassLoader)：负责加载 JAVA_HOME\lib\ext 目录中的，或通过java.ext.dirs系统变量指定路径中的类库。
-    应用程序类加载器(Application ClassLoader)：也叫做系统类加载器，可以通过getSystemClassLoader()获取，负责加载用户
-    路径（classpath）上的类库。如果没有自定义类加载器，一般这个就是默认的类加载器。
+- 类加载器实现的功能是即为加载阶段获取二进制字节流的时候，JDK使用双亲委派方式来确保加载的类在JVM中全局唯一。
+- JVM提供了以下3种系统的类加载器：
+  1. 启动类加载器（Bootstrap ClassLoader）：最顶层的类加载器，负责加载 JAVA_HOME\lib 目录中的，或通过-Xbootclasspath参数指定路径中的，且被虚拟机认可（按文件名识别，如rt.jar）的类。
+  2. 扩展类加载器(Extension ClassLoader)：负责加载 JAVA_HOME\lib\ext 目录中的，或通过java.ext.dirs系统变量指定路径中的类库。
+  3. 应用程序类加载器(Application ClassLoader)：也叫做系统类加载器，可以通过getSystemClassLoader()获取，负责加载用户路径（classpath）上的类库。如果没有自定义类加载器，一般这个就是默认的类加载器。
    
 # 二、设计模式
     java的设计模式大体上分为三大类：
@@ -206,6 +224,7 @@ Java学习笔记
 
 ### 5.JDK8新特性
     hashMap增加红黑树：https://blog.csdn.net/lch_2016/article/details/81045480
+    新功能：http://ifeve.com/java-8-features-tutorial/
 ### 6.JDK9新特性
     https://baijiahao.baidu.com/s?id=1593429162250494010&wfr=spider&for=pc
 
@@ -275,7 +294,7 @@ Java学习笔记
    
       -class              ：显示ClassLoad的相关信息；
       -compiler           ：显示JIT编译的相关信息；
-      -gc                 ：显示和gc相关的堆信息；
+      -gc                 ：显示和GC相关的堆信息；
       -gccapacity         ：显示各个代的容量以及使用情况；
       -gcmetacapacity     ：显示metaspace的大小；
       -gcnew              ：显示新生代信息；
@@ -285,6 +304,9 @@ Java学习笔记
       -gcutil             ：显示垃圾收集信息；
       -gccause            ：显示垃圾回收的相关信息（通-gcutil）,同时显示最后一次或当前正在发生的垃圾回收的诱因；
       -printcompilation   ：输出JIT编译的方法信息；
+
+JAVA调优命令详解：https://blog.csdn.net/fenglibing/article/details/6411999
+https://blog.csdn.net/tzs_1041218129/article/details/61630981
 
 ### 3.Java内存模型
 ### 4.堆、栈：
