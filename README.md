@@ -247,7 +247,7 @@ Java学习笔记
 ---    
 **jstat**：JDK自带的一个轻量级监控工具。[更多](https://www.jianshu.com/p/213710fb9e40)  
 - option配置如下：  
-  1. -class                显示ClassLoad的相关信息；  
+  1. -class                 显示ClassLoad的相关信息；  
   2. -compiler             显示JIT编译的相关信息；  
   3. -gc                   显示和gc相关的堆信息；  
   4. -gccapacity           显示各个代的容量以及使用情况；  
