@@ -93,25 +93,31 @@ Java学习笔记
     - 泛型继承，通配符，泛型反射：https://blog.csdn.net/vi_young_95/article/details/82979358
     
 ### 7.JDBC
+- JDBC（Java DataBase Connectivity，Java数据库连接）是一种用于执行SQL语句的Java API，可以为多种关系数据库提供统一访问，它由一组用Java语言编写的类和接口组成。JDBC提供了一种基准，据此可以构建更高级的工具和接口，使数据库开发人员能够编写数据库应用程序。
 ```java
-  //注册驱动
-  Class.forName("com.mysql.jdbc.Driver");
-  //创建连接
-  Connection conn = DriverManager.getConnection(“jdbc:mysql://localhost:3306/test”,"root","password");
-  //创建SQL语句
-  String sql = "INSERT INTO test(name,sex,age)VALUES(?,?,?)";
-  PreparedStatement pstmt = conn.prepareStatement(sql);
-  //设置参数
-  pstmt.setString(1,"张某某");
-  pstmt.setString(2,"男");
-  pstmt.setString(3,20);
-  //执行SQL语句
-  int num = pstmt.executeUpdate();
-  System.out.println("row num : "+num);
-  //关闭PreparedStatement
-  pstmt.close();
-  //关闭连接
-  conn.close();
+import java.sql.*;
+public class DriverTest{
+    public static void main(String[] args)throws Exception{
+        //注册驱动
+        Class.forName("com.mysql.jdbc.Driver");
+        //创建连接
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","password");
+        //创建SQL语句
+        String sql = "INSERT INTO test(name,sex,age)VALUES(?,?,?)";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        //设置参数
+        pstmt.setString(1,"张某某");
+        pstmt.setString(2,"男");
+        pstmt.setString(3,20);
+        //执行SQL语句
+        int num = pstmt.executeUpdate();
+        System.out.println("row num : "+num);
+        //关闭PreparedStatement
+        pstmt.close();
+        //关闭连接
+        conn.close();
+    }
+}
 ```
 
 ### 8.JNI
@@ -122,16 +128,17 @@ Java学习笔记
 ### 9.深拷贝与浅拷贝
 - **浅拷贝**：是指在拷贝对象时，对于基本数据类型的变量会重新复制一份，而对于引用类型的变量只是对引用进行拷贝，没有对引用指向的对象进行拷贝。 
 - **深拷贝**：是指在拷贝对象时，同时会对引用指向的对象进行拷贝。区别就在于是否对对象中的引用变量所指向的对象进行拷贝。浅拷贝是指拷贝对象时仅仅拷贝对象本身（包括对象中的基本变量），而不拷贝对象包含的引用指向的对象。深拷贝不仅拷贝对象本身，而且拷贝对象包含的引用指向的所有对象。
-    > 举例来说更加清楚：对象A1中包含对B1的引用，B1中包含对C1的引用。浅拷贝A1得到A2，A2中依然包含对B1的引用，B1中依然包含对C1的引用。深拷贝则是对浅拷贝的递归，深拷贝A1得到A2，A2中包含对B2（B1的copy）的引用，B2中包含对C2（C1的copy）的引用。若不对clone()方法进行改写，则调用此方法得到的对象即为浅拷贝。
+  >举例：对象A1中包含对B1的引用，B1中包含对C1的引用。浅拷贝A1得到A2，A2中依然包含对B1的引用，B1中依然包含对C1的引用。深拷贝则是对浅拷贝的递归，深拷贝A1得到A2，A2中包含对B2（B1的copy）的引用，B2中包含对C2（C1的copy）的引用。若不对clone()方法进行改写，则调用此方法得到的对象即为浅拷贝。
  
 ### 10、Java代理
-    代理(Proxy)是一种设计模式,提供了对目标对象另外的访问方式;即通过代理对象访问目标对象.这样做的好处是:可以在目标对象实现
-    的基础上,增强额外的功能操作,即扩展目标对象的功能.
+- 代理(Proxy)是一种设计模式，提供了对目标对象另外的访问方式；即通过代理对象访问目标对象。这样做的好处是：可以在目标对象实现的基础上，增强额外的功能操作，即扩展目标对象的功能。
+- Java有三种代理方式：静态代理、动态代理、CGlib代理。
+  1. 静态代理
+  2. 动态代理
+  3. CGlib代理
+
     这里使用到编程中的一个思想:不要随意去修改别人已经写好的代码或者方法,如果需改修改,可以通过代理的方式来扩展该方法
     https://www.cnblogs.com/cenyu/p/6289209.html
-    静态代理：
-    动态代理：
-    CGlib代理：
 
 ### 11、transient volatile
     transient相关：
