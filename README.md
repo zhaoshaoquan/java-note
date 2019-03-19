@@ -3,11 +3,9 @@ Java学习笔记
 
 # 一、Java基础
 ### 1.字符串(String、StringBuilder、StringBuffer)
-    String：内部使用final char value[]存储，由于使用final关键字修饰，对象初始化后不能修改，属于定长字符串。
-    StringBuilder：内部使用char value[]存储，非线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用
-    byte value[]存储。
-    StringBuffer：内部使用char value[]存储，线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用
-    byte value[]存储。
+- String：内部使用final char value[]存储，由于使用final关键字修饰，对象初始化后不能修改，属于定长字符串。
+- StringBuilder：内部使用char value[]存储，非线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用byte value[]存储。
+- StringBuffer：内部使用char value[]存储，线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用byte value[]存储。
     
 ### 2.集合(Set、List)
     List和Set都继承Collection接口。
@@ -83,9 +81,11 @@ Java学习笔记
       @Inherited：允许子类继承父类中的注解
 
 ### 6.Java泛型
-    Java在泛型设计上是一种“伪泛型”，存在着泛型擦除。
-    JAVA的泛型擦除：https://www.cnblogs.com/doucheyard/p/6855823.html
-    泛型继承，通配符，泛型反射：https://blog.csdn.net/vi_young_95/article/details/82979358
+- Java在泛型设计上是一种“伪泛型”，存在着[泛型擦除](https://www.cnblogs.com/doucheyard/p/6855823.html)。
+- 泛型实参只会在类、字段及方法参数内保存其签名，无法通过反射动态获取泛型实例的具体实参。
+- 获取泛型实参三种方法：1、通过传递实参类型；2、明确定义泛型实参类型，通过反射获取签名；3、通过匿名类捕获相关的泛型实参。
+    
+    - 泛型继承，通配符，泛型反射：https://blog.csdn.net/vi_young_95/article/details/82979358
     
 ### 7.JDBC
 
@@ -244,22 +244,6 @@ Java学习笔记
         -Xmixed：混合模式
     9、JVM启动时添加-verbose:class参数，在项目启动时会把项目所加的jar包都打印出来。
     
-**jstat**：JDK自带的一个轻量级监控工具。[更多](https://www.jianshu.com/p/213710fb9e40)  
-- option配置如下：
-   
-      -class              ：显示ClassLoad的相关信息；  
-      -compiler           ：显示JIT编译的相关信息；  
-      -gc                 ：显示和gc相关的堆信息；  
-      -gccapacity         ：显示各个代的容量以及使用情况；  
-      -gcmetacapacity     ：显示metaspace的大小；  
-      -gcnew              ：显示新生代信息；  
-      -gcnewcapacity      ：显示新生代大小和使用情况；  
-      -gcold              ：显示老年代和永久代的信息；  
-      -gcoldcapacity      ：显示老年代的大小；  
-      -gcutil             ：显示垃圾收集信息；  
-      -gccause            ：显示垃圾回收的相关信息（通-gcutil）,同时显示最后一次或当前正在发生的垃圾回收的诱因；  
-      -printcompilation   ：输出JIT编译的方法信息； 
-   
 ---    
     java -Dio.netty.leakDetectionLevel=advanced 
     -Djava.net.preferIPv4Stack=true 
@@ -284,6 +268,21 @@ Java学习笔记
 ### 2.GC管理
     GC主要是对堆内存进行回收、
     现在收集器基本都是采用的分代收集算法，所以Java 堆中还可以细分为：新生代和老年代；
+**jstat**：JDK自带的一个轻量级监控工具。[更多](https://www.jianshu.com/p/213710fb9e40)  
+- option配置如下：
+   
+      -class              ：显示ClassLoad的相关信息；
+      -compiler           ：显示JIT编译的相关信息；
+      -gc                 ：显示和gc相关的堆信息；
+      -gccapacity         ：显示各个代的容量以及使用情况；
+      -gcmetacapacity     ：显示metaspace的大小；
+      -gcnew              ：显示新生代信息；
+      -gcnewcapacity      ：显示新生代大小和使用情况；
+      -gcold              ：显示老年代和永久代的信息；
+      -gcoldcapacity      ：显示老年代的大小；
+      -gcutil             ：显示垃圾收集信息；
+      -gccause            ：显示垃圾回收的相关信息（通-gcutil）,同时显示最后一次或当前正在发生的垃圾回收的诱因；
+      -printcompilation   ：输出JIT编译的方法信息；
 
 ### 3.Java内存模型
 ### 4.堆、栈：
