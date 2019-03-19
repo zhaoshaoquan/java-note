@@ -100,8 +100,9 @@ public class DriverTest{
     public static void main(String[] args)throws Exception{
         //注册驱动
         Class.forName("com.mysql.jdbc.Driver");
+        String url = "jdbc:mysql://localhost:3306/test";
         //创建连接
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","password");
+        Connection conn = DriverManager.getConnection(url,"root","password");
         //创建SQL语句
         String sql = "INSERT INTO test(name,sex,age)VALUES(?,?,?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
