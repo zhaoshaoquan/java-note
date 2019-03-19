@@ -244,8 +244,8 @@ Java学习笔记
         -Xmixed：混合模式
     9、JVM启动时添加-verbose:class参数，在项目启动时会把项目所加的jar包都打印出来。
     
-    
-jstat：是JDK自带的一个轻量级小工具。[更多](https://www.jianshu.com/p/213710fb9e40)  
+---    
+**jstat**：JDK自带的一个轻量级监控工具。[更多](https://www.jianshu.com/p/213710fb9e40)  
 - option配置如下：  
   1. -class                显示ClassLoad的相关信息；  
   2. -compiler             显示JIT编译的相关信息；  
