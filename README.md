@@ -109,7 +109,7 @@ public class DriverTest{
         //设置参数
         pstmt.setString(1,"张某某");
         pstmt.setString(2,"男");
-        pstmt.setString(3,20);
+        pstmt.setInt(3,20);
         //执行SQL语句
         int num = pstmt.executeUpdate();
         System.out.println("row num : "+num);
