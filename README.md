@@ -223,7 +223,7 @@ public class DriverTest{
        死亡状态（Dead）：线程执行完了或者因异常退出了run()方法，该线程结束生命周期。
 
 ### 1.Synchronization关键字底层原理
-Java虚拟机中的同步(Synchronization)基于进入和退出管程(Monitor)对象实现，无论是显式同步(有明确的monitorenter和monitorexit指令,即同步代码块)还是隐式同步都是如此。在Java语言中，同步用的最多的地方可能是被synchronized修饰的同步方法。同步方法并不是由monitorenter和monitorexit指令来实现同步的，而是由方法调用指令读取运行时常量池中方法的ACC_SYNCHRONIZED标志来隐式实现的。在JVM中，对象在内存中的布局分为三块区域：对象头、实例数据和对齐填充。  
+Java虚拟机中的同步(Synchronization)基于进入和退出管程(Monitor)对象实现，无论是显式同步(有明确的monitorenter和monitorexit指令，即同步代码块)还是隐式同步都是如此。在Java语言中，同步用的最多的地方可能是被synchronized修饰的同步方法。同步方法并不是由monitorenter和monitorexit指令来实现同步的，而是由方法调用指令读取运行时常量池中方法的ACC_SYNCHRONIZED标志来隐式实现的。在JVM中，对象在内存中的布局分为三块区域：对象头、实例数据和对齐填充。  
 ![实例对象](images/img04.png)
 
 - 实例变量：存放类的属性数据信息，包括父类的属性信息，如果是数组的实例部分还包括数组的长度，这部分内存按4字节对齐。
@@ -268,12 +268,8 @@ ObjectMonitor() {
 ObjectMonitor中有两个队列，_WaitSet和_EntryList，用来保存ObjectWaiter对象列表(每个等待锁的线程都会被封装成ObjectWaiter对象)，_owner指向持有ObjectMonitor对象的线程，当多个线程同时访问一段同步代码时，首先会进入_EntryList集合，当线程获取到对象的monitor后进入_Owner区域并把monitor中的owner变量设置为当前线程同时monitor中的计数器count加1，若线程调用wait()方法，将释放当前持有的monitor，owner变量恢复为null，count自减1，同时该线程进入WaitSet集合中等待被唤醒。若当前线程执行完毕也将释放monitor(锁)并复位变量的值，以便其他线程进入获取monitor(锁)。如下图：
 ![img03](images/img03.png)
 
-由此看来，monitor对象存在于每个Java对象的对象头中(存储的指针的指向)，synchronized锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为锁的原因，同时也是notify/notifyAll/wait等方法存在于顶级对象Object中的原因。
-
-
-
-synchronized：https://blog.csdn.net/javazejian/article/details/72828483
-
+由此看来，monitor对象存在于每个Java对象的对象头中(存储的指针的指向)，synchronized锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为锁的原因，**同时也是notify/notifyAll/wait等方法存在于顶级对象Object中的原因**。
+[原文连接](https://blog.csdn.net/javazejian/article/details/72828483)
 
 ### 2.
 ### 3.锁
