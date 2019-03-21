@@ -1,59 +1,94 @@
-# Java 基础
+# 一、 Java 基础
 
-    1、hashMap的实现原理和底层结构，hashMap，get方法的时间复杂度
-    2、解决key哈希值冲突的方法
-    3、ArrayList与LinkedList的实现区别
-    4、IO的几种模式（https://blog.csdn.net/woxinqidai/article/details/82717427）
+#### 1、hashMap的实现原理和底层结构，hashMap，get方法的时间复杂度
+https://www.cnblogs.com/yangming1996/p/7997468.html
+ >- HashMap 是 Map 的一个实现类，它代表的是一种键值对的数据存储形式。Key 不允许重复出现，Value 随意。jdk 8 之前，其内部是由数组+链表来实现的，而 jdk 8 对于链表长度超过 8 的链表将转储为红黑树。大致的数据存储形式如下：
+ ![线程生命周期](images/hashmap.png)
+ 
+    //默认的容量，即默认的数组长度 16
+    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
+    //最大的容量，即数组可定义的最大长度 
+    static final int MAXIMUM_CAPACITY = 1 << 30;
+    
+  >有关 HashMap 的基本属性大致介绍如上。下面我们看看它的几个重载的构造函数。
+  
+    public HashMap(int initialCapacity, float loadFactor) {
+        if (initialCapacity < 0)
+            throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
+        if (initialCapacity > MAXIMUM_CAPACITY)
+            initialCapacity = MAXIMUM_CAPACITY;
+        if (loadFactor <= 0 || Float.isNaN(loadFactor))
+            throw new IllegalArgumentException("Illegal load factor: " +loadFactor);
+        this.loadFactor = loadFactor;
+        this.threshold = tableSizeFor(initialCapacity);
+    }
+  
+ >这是一个最基本的构造函数，需要调用方传入两个参数，initialCapacity 和 loadFactor。程序的大部分代码在判断传入参数的合法性，initialCapacity 小于零将抛出异常，大于 MAXIMUM_CAPACITY 将被限定为 MAXIMUM_CAPACITY。loadFactor 如果小于等于零或者非数字类型也会抛出异常。
+ 
+#### 2、解决key哈希值冲突的方法
+- 开放定址法
+    >当关键字key的哈希地址p=H（key）出现冲突时，以p为基础，产生另一个哈希地址p1，如果p1仍然冲突，再以p为基础，产生另一个哈希地址p2，…，直到找出一个不冲突的哈希地址pi ，将相应元素存入其中:
+    1. 线性探测法ThreadLocalMap:如果发生冲突，算法会简单的从该槽位置向后循环遍历hash表，直到找到表中的下一个空槽，并将该元素放入该槽中（会导致相同hash值的元素挨在一起和其他hash值对应的槽被占用）。查找元素时，首先散列值所指向的槽，如果没有找到匹配，则继续从该槽遍历hash表，直到：（1）找到相应的元素；（2）找到一个空槽，指示查找的元素不存在，（所以不能随便删除元素）；（3）整个hash表遍历完毕（指示该元素不存在并且hash表是满的）
+    2. 线性补偿探测法:即将上述算法中的线性探测的步长从 1 改为 Q ，在表的左右进行跳跃式探测，比较灵活。
+ 伪随机探测将线性探测的步长从常数改为随机数,这样就能使不同的关键字具有不同的探测次序，从而可以避 免或减少堆聚
+- 链地址法
+    >将所有哈希地址为i的元素构成一个称为同义词链的单链表，并将单链表的头指针存在哈希表的第i个单元中，因而查找、插入和删除主要在同义词链中进行。链地址法适用于经常进行插入和删除的情况。（HashMap使用此法）
+- 再哈希法
+    >这种方法是同时构造多个不同的哈希函数，当发生哈希冲突时，就再计算一个哈希值，知道不冲突为止
+- 建立公共溢出区
+    >建立一个溢出区，凡是冲突的放到溢出区
+#### 3、ArrayList与LinkedList的实现区别
+#### 4、IO的几种模式（https://blog.csdn.net/woxinqidai/article/details/82717427）
         同步阻塞IO，同步非阻塞IO，IO多路复用，AIO(Asynchronous IO) 异步非阻塞IO
-    5、说说反射机制的作用。
-    6、反射机制会不会有性能问题？为什么
-    7、
-
-# Spring 基础
+#### 5、说说反射机制的作用。
+#### 6、反射机制会不会有性能问题？为什么
+    
+# 二、 Spring 基础
 
     1、spring事务的实现原理
     2、Spring框架中的单例bean是线程安全的吗?
     3、解释Spring框架中bean的生命周期。
-    4、
 
-# 多线程
+# 三、 多线程
 
-    1、volatile关键字的作用是什么
-    2、Runnable接口和Callable接口的不同点？
-    3、CyclicBarrier和CountDownLatch的区别（https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=924747898,3771862030&fm=173&s=4D00E91A9BDC64C80EFCB1CA0000C0B1&w=544&h=258&img.JPEG）
-    4、volatile和synchronized的区别
-        1）volatile本质是在告诉jvm当前变量在寄存器中的值是不确定的,需要从主存中读取,synchronized则是锁定当前变量,只有当前线程可以访问该变量,其他线程被阻塞住.
-        2）volatile仅能使用在变量级别,synchronized则可以使用在变量,方法.
-        3）volatile仅能实现变量的修改可见性,而synchronized则可以保证变量的修改可见性和原子性.
-        4）volatile不会造成线程的阻塞,而synchronized可能会造成线程的阻塞.
-    5、Lock和synchronized区别
-    6、线程池ThreadPoolExecutor的工作原理
+#### 1、volatile关键字的作用是什么
+#### 2、Runnable接口和Callable接口的不同点？
+#### 3、CyclicBarrier和CountDownLatch的区别
+ ![线程生命周期](images/thread01.JPEG)
+#### 4、volatile和synchronized的区别
+   >- volatile本质是在告诉jvm当前变量在寄存器中的值是不确定的,需要从主存中读取,synchronized则是锁定当前变量,只有当前线程可以访问该变量,其他线程被阻塞住.
+   >- volatile仅能使用在变量级别,synchronized则可以使用在变量,方法.
+   >- volatile仅能实现变量的修改可见性,而synchronized则可以保证变量的修改可见性和原子性.
+   >- volatile不会造成线程的阻塞,而synchronized可能会造成线程的阻塞.
+#### 5、Lock和synchronized区别
+    
+#### 6、线程池ThreadPoolExecutor的工作原理
     （https://segmentfault.com/a/1190000012705130）
-    7、新建T1、T2、T3三个线程，如何保证它们按顺序执行
-    8、怎么中断一个线程？如何保证中断业务不影响？
-    9、什么是重入锁？
-    10、Fork/Join框架是干什么的？
-    11、Jdk中排查多线程问题用什么命令？
-    12、线程之间如何传递数据？
-    13、FutureTask是什么？
-    14、怎么唤醒一个阻塞的线程？
-    15、什么是不可变对象，举例说明，在多线程有什么好处
+#### 7、新建T1、T2、T3三个线程，如何保证它们按顺序执行
+#### 8、怎么中断一个线程？如何保证中断业务不影响？
+#### 9、什么是重入锁？
+#### 10、Fork/Join框架是干什么的？
+#### 11、Jdk中排查多线程问题用什么命令？
+#### 12、线程之间如何传递数据？
+#### 13、FutureTask是什么？
+#### 14、怎么唤醒一个阻塞的线程？
+#### 15、什么是不可变对象，举例说明，在多线程有什么好处
        构造、测试和使用都很简单 
     　　线程安全且没有同步问题，不需要担心数据会被其它线程修改 
     　　当用作类的属性时不需要保护性拷贝 
     　　可以很好的用作Map键值和Set元素 
     　　不可变对象最大的缺点就是创建对象的开销，因为每一步操作都会产生一个新的对象。
-    16、Java内存模型是什么，哪些区域是线程共享的，哪些是不共享的
-    17、什么是乐观锁和悲观锁？
-    18、什么是自旋锁？
-    19、进程和线程的区别是什么？
+#### 16、Java内存模型是什么，哪些区域是线程共享的，哪些是不共享的
+#### 17、什么是乐观锁和悲观锁？
+#### 18、什么是自旋锁？
+#### 19、进程和线程的区别是什么？
     
     20、 如何确保N个线程可以访问N个资源同时又不导致死锁？
         
     
     
 
-# jvm
+# 四、 jvm
     （http://www.importnew.com/23792.html）
 
     1、类加载机制，步骤，各做了什么事情
@@ -92,7 +127,7 @@
     
 
 
-# 算法
+# 五、 算法
 
 
     1、使用代码写出快速排序
@@ -100,38 +135,47 @@
     3、倒排索引的原理
     4、谈一谈一致性哈希算法。
 
-# 分布式架构
+# 六、 分布式架构
 
     1、微服务如何实现幂等性
     2、分布式事务的实现方式有哪几种
     
 
-# 消息队列
+# 七、 消息队列
+### 1、activeMQ
+
+### 2、rabiitMQ
+
+### 3、kafka
 
 
 
-# 关系型数据库
+# 八、 关系型数据库
 
-### mysql
+### 1、 mysql
     
-    1、mysql如何实现主从备份的
-    2、Mysql中的myisam与innodb的区别
-        1）、InooDB支持事务，而MyISAM不支持事务
-        2）、InnoDB支持行级锁，而MyISAM支持表级锁
-        3）、InnoDB支持MVCC，而MyISAM不支持
-        4）、InnoDB支持外键，而MyISAM不支持
-        5）、InnoDB不支持全文索引，而MyISAM支持
-    3、InooDB和MyISAM的select count（*）哪个更快，为什么
-        myisam更快，因为myisam内部维护了一个计算器，可以直接调取。MyISAM的索引和数据是分开的，并且索引是有压缩的，内存使用率就对应提高了不少。能加载更多索引，而Innodb是索引和数据是紧密捆绑的，没有使用压缩从而会造成Innodb比MyISAM体积庞大不小。
-    4、事务的4种隔离级别
+#### 1、mysql如何实现主从备份的
+#### 2、Mysql中的myisam与innodb的区别
+
+ >- InooDB支持事务，而MyISAM不支持事务
+ >- InnoDB支持行级锁，而MyISAM支持表级锁
+ >- InnoDB支持MVCC，而MyISAM不支持
+ >- InnoDB支持外键，而MyISAM不支持
+ >- InnoDB不支持全文索引，而MyISAM支持
+        
+#### 3、InooDB和MyISAM的select count（*）哪个更快，为什么
+        
+   >myisam更快，因为myisam内部维护了一个计算器，可以直接调取。MyISAM的索引和数据是分开的，并且索引是有压缩的，内存使用率就对应提高了不少。能加载更多索引，而Innodb是索引和数据是紧密捆绑的，没有使用压缩从而会造成Innodb比MyISAM体积庞大不小。
+
+#### 4、事务的4种隔离级别
         1）读未提交（read uncommitted）
         2）读已提交 (read committed)
         3）可重复读 (repeatable read)
         4）可串行化 (Serializable)
-    5、一张表里面有ID自增主键，当insert了17条记录之后，删除了第15,16,17条记录，再把mysql重启，再insert一条记录，这条记录的ID是18还是15 ？
-        (1)如果类型是myisam，那么是18，MyISAM会把自增最大ID记录到数据文件里，重启最大id不会丢失
-        （2）如果是innodb 那么是15，MyISAM会把自增最大ID记录到内存中，重启数据库或者OPTIMIZE操作都会导致最大ID丢失
-    6、为什么使用数据索引能提高效率
+#### 5、一张表里面有ID自增主键，当insert了17条记录之后，删除了第15,16,17条记录，再把mysql重启，再insert一条记录，这条记录的ID是18还是15 ？
+   >- 如果类型是myisam，那么是18，MyISAM会把自增最大ID记录到数据文件里，重启最大id不会丢失
+   >- 如果是innodb 那么是15，MyISAM会把自增最大ID记录到内存中，重启数据库或者OPTIMIZE操作都会导致最大ID丢失
+#### 6、为什么使用数据索引能提高效率
         1）数据索引的存储是有序的
         2）在有序的情况下，通过索引查询一个数据是无需遍历索引记录的
         3）极端情况下，数据索引的查询效率为二分法查询效率，趋近于 log2(N)
@@ -177,7 +221,7 @@
         1）、key是数据库的物理结构，它包含两层意义和作用，一是约束（偏重于约束和规范数据库的结构完整性），二是索引（辅助查询用的）。包括primary key，unique key，foregin key等
         2）、index是数据库的物理结构，它只是辅助查询的，它创建时会在另外的表空间（mysql中的innodb表空间）以一个类似目录的结构存储。索引要分类的话，分为前缀索引、全文本索引等
 
-# 非关系型数据库
+# 九、 非关系型数据库
 
 ## redis 
     
@@ -202,7 +246,7 @@
     10、海量日志如何排序和处理
     11、redis的key是如何寻址的
     
-# 笔试题
+# 十、 笔试题
     
     
       
