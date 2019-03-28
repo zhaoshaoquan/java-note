@@ -13,6 +13,11 @@
          3.是一个有序容器，保持了每个元素的插入顺序，输出的顺序就是插入的顺序。
          4.常用的实现类有 ArrayList、LinkedList 和 Vector。ArrayList 最为流行，它提供了使用索引的随意访问，而 LinkedList
          则对于经常需要从 List 中添加或删除元素的场合更为合适。
+      Vector由于使用了synchronized方法（线程安全）所以性能上比ArrayList要差。
+      如果集合中的元素的数目大于目前集合数组的长度时，vector增长率为目前数组长度的100%,而arraylist增长率为目前数组长度
+      的50%.如过在集合中使用数据量比较大的数据，用vector有一定的优势。   
+         
+         
             
 - Set: 1.不允许重复对象
     　　  2.无序容器，你无法保证每个元素的存储顺序，TreeSet通过 Comparator  或者 Comparable 维护了一个排序顺序。
@@ -455,6 +460,9 @@ volatile关键字另一个作用就是禁止指令重排优化，从而避免多
 
 # 八、分步式
 ### 1.zookeeper
+- 常见的一至性协议：Paxos、Raft、2PC、3PC、ZAB（Zookeeper Atomic Broadcast：Zookeeper原子广播协议）。
+
+
 ### 2.dubbo
 ### 3.
     分布式 了解SpringCLoud这套组件的理论，还有 典型的分布式组件zookeeper，及相关的分布式算法zab,raft,paxos,
