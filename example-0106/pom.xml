@@ -11,7 +11,7 @@
     <artifactId>example-0106</artifactId>
 
     <properties>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
         <downloadSources>true</downloadSources>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

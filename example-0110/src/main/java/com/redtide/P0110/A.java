@@ -19,36 +19,37 @@ public class A{
             i++;
         }
     }
+
+    static class Singleton{
+        private static Singleton singleton = new Singleton();
+        public static int value1;
+        public static int value2 = 0;
+
+        private Singleton(){
+            value1++;
+            value2++;
+        }
+
+        public static Singleton getInstance(){
+            return singleton;
+        }
+
+    }
+
+    static class Singleton2{
+        public static int value1;
+        public static int value2 = 0;
+        private static Singleton2 singleton2 = new Singleton2();
+
+        private Singleton2(){
+            value1++;
+            value2++;
+        }
+
+        public static Singleton2 getInstance2(){
+            return singleton2;
+        }
+
+    }
 }
 
-class Singleton{
-    private static Singleton singleton = new Singleton();
-    public static int value1;
-    public static int value2 = 0;
-
-    private Singleton(){
-        value1++;
-        value2++;
-    }
-
-    public static Singleton getInstance(){
-        return singleton;
-    }
-
-}
-
-class Singleton2{
-    public static int value1;
-    public static int value2 = 0;
-    private static Singleton2 singleton2 = new Singleton2();
-
-    private Singleton2(){
-        value1++;
-        value2++;
-    }
-
-    public static Singleton2 getInstance2(){
-        return singleton2;
-    }
-
-}

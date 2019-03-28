@@ -7,14 +7,14 @@
 - **StringBuffer**：内部使用char value[]存储，线程安全，可使用append动态添加字符串，能够动态扩容。JDK9开始使用byte value[]存储。
     
 ### 2.集合(Set、List)
-    List和Set都继承Collection接口。
+- List和Set都继承Collection接口。
          1.可以允许重复的对象。
          2.可以插入多个null元素。
          3.是一个有序容器，保持了每个元素的插入顺序，输出的顺序就是插入的顺序。
          4.常用的实现类有 ArrayList、LinkedList 和 Vector。ArrayList 最为流行，它提供了使用索引的随意访问，而 LinkedList
          则对于经常需要从 List 中添加或删除元素的场合更为合适。
             
-    Set: 1.不允许重复对象
+- Set: 1.不允许重复对象
     　　  2.无序容器，你无法保证每个元素的存储顺序，TreeSet通过 Comparator  或者 Comparable 维护了一个排序顺序。
          3.只允许一个 null 元素
          4.Set 接口最流行的几个实现类是 HashSet、LinkedHashSet 以及 TreeSet。最流行的是基于 HashMap 实现的 HashSet；
@@ -92,7 +92,7 @@
     - 泛型继承，通配符，泛型反射：https://blog.csdn.net/vi_young_95/article/details/82979358
     
 ### 7.JDBC
-- JDBC（Java DataBase Connectivity，Java数据库连接）是一种用于执行SQL语句的Java API，可以为多种关系数据库提供统一访问，它由一组用Java语言编写的类和接口组成。JDBC提供了一种基准，据此可以构建更高级的工具和接口，使数据库开发人员能够编写数据库应用程序。
+- JDBC（Java Database Connectivity，Java数据库连接）是一种用于执行SQL语句的Java API，可以为多种关系数据库提供统一访问，它由一组用Java语言编写的类和接口组成。JDBC提供了一种基准，据此可以构建更高级的工具和接口，使数据库开发人员能够编写数据库应用程序。
 ```java
 import java.sql.*;
 public class DriverTest{
@@ -149,9 +149,23 @@ public class DriverTest{
 ### 12、Java类加载
 - 类加载器实现的功能是即为加载阶段获取二进制字节流的时候，JDK使用双亲委派方式来确保加载的类在JVM中全局唯一。
 - JVM提供了以下3种系统的类加载器：
-  1. 启动类加载器（Bootstrap ClassLoader）：最顶层的类加载器，负责加载 JAVA_HOME\lib 目录中的，或通过-Xbootclasspath参数指定路径中的，且被虚拟机认可（按文件名识别，如rt.jar）的类。
-  2. 扩展类加载器(Extension ClassLoader)：负责加载 JAVA_HOME\lib\ext 目录中的，或通过java.ext.dirs系统变量指定路径中的类库。
+  1. 启动类加载器（Bootstrap ClassLoader）：最顶层的类加载器，负责加载JAVA_HOME\lib目录中的，或通过-Xbootclasspath参数指定路径中的，且被虚拟机认可（按文件名识别，如rt.jar）的类。
+  2. 扩展类加载器(Extension ClassLoader)：负责加载JAVA_HOME\lib\ext目录中的，或通过java.ext.dirs系统变量指定路径中的类库。
   3. 应用程序类加载器(Application ClassLoader)：也叫做系统类加载器，可以通过getSystemClassLoader()获取，负责加载用户路径（classpath）上的类库。如果没有自定义类加载器，一般这个就是默认的类加载器。
+  
+  
+        加载：类加载过程的一个阶段：通过一个类的完全限定查找此类字节码文件，并利用字节码文件创建一个Class对象
+        
+        验证：目的在于确保Class文件的字节流中包含信息符合当前虚拟机要求，不会危害虚拟机自身安全。主要包括四种验证，文件格式验证，元数据验证，字节码验证，符号引用验证。
+        
+        准备：为类变量(即static修饰的字段变量)分配内存并且设置该类变量的初始值即0(如static int i=5;这里只将i初始化为0，至于5的值将在初始化时赋值)，这里不包含用final修饰的static，因为final在编译的时候就会分配了，注意这里不会为实例变量分配初始化，类变量会分配在方法区中，而实例变量是会随着对象一起分配到Java堆中。
+        
+        解析：主要将常量池中的符号引用替换为直接引用的过程。符号引用就是一组符号来描述目标，可以是任何字面量，而直接引用就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。有类或接口的解析，字段解析，类方法解析，接口方法解析(这里涉及到字节码变量的引用，如需更详细了解，可参考《深入Java虚拟机》)。
+        
+        初始化：类加载最后阶段，若该类具有超类，则对其进行初始化，执行静态初始化器和静态初始化成员变量(如前面只初始化了默认值的static变量将会在这个阶段赋值，成员变量也将被初始化)。
+        
+        这便是类加载的5个过程，而类加载器的任务是根据一个类的全限定名来读取此类的二进制字节流到JVM中，然后转换为一个与目标类对应的java.lang.Class对象实例，在虚拟机提供了3种类加载器，引导（Bootstrap）类加载器、扩展（Extension）类加载器、系统（System）类加载器（也称应用类加载器），下面分别介绍
+！ 
    
 # 二、设计模式
     java的设计模式大体上分为三大类：
@@ -395,8 +409,8 @@ https://blog.csdn.net/tzs_1041218129/article/details/61630981
 - **虚拟机栈(Java Virtual Machine Stacks)**：Java虚拟机栈和程序计数器一样也是线程私有的，与线程同时创建，总数与线程关联，用于描述Java方法执行的内存模型（每个方法执行时都会创建一个栈帧），用于存储局部变量、操作数栈、动态链接、返回值、返回地址等，每个方法从调用直结束就对于一个栈桢在虚拟机栈中的入栈和出栈过程。当线程请求的栈深度大于虚拟机所允许 的深度时，则会抛出StackOverflowError异常。如果虚拟机栈动态扩展时无法申请到足够的内存，则会抛出OutOfMemoryError异常。
 - **本地方法栈(Native Method Stacks)**：本地方法栈与虚拟机栈的作用非常相似，它们的区别在于Java虚拟机栈为虚拟机执行Java方法（也就是字节码）服务，本地方法栈则为虚拟机使用Native方法服务。本地方法栈也会抛出StackOverflowError和OutOfMemoryError异常。这里之所以简要说明这部分内容，注意是为了区别Java内存模型与Java内存区域的划分，毕竟这两种划分是属于不同层次的概念。
 
-- 在程序开发中，仅靠sychronized和volatile关键字来保证原子性、可见性以及有序性，那么编写并发程序可能会显得十分麻烦，在Java内存模型中，还提供了happens-before原则来辅助保证程序执行的原子性、可见性以及有序性的问题，它是判断数据是否存在竞争、线程是否安全的依据。JMM中的happens-before原则：
-  1. 程序顺序原则，即在一个线程内必须保证语义串行性，也就是说按照代码顺序执行。
+- 在程序开发中，仅靠synchronized和volatile关键字来保证原子性、可见性以及有序性，那么编写并发程序可能会显得十分麻烦，在Java内存模型中，还提供了happens-before原则来辅助保证程序执行的原子性、可见性以及有序性的问题，它是判断数据是否存在竞争、线程是否安全的依据。JMM中的happens-before原则：
+  1. 程序顺序规则：即在一个线程内必须保证语义串行性，也就是说按照代码顺序执行。
   2. 锁规则：解锁(unlock)操作必然发生在后续的同一个锁的加锁(lock)之前，也就是说，如果对于一个锁解锁后，再加锁，那么加锁的动作必须在解锁动作之后(同一个锁)。
   3. volatile规则：volatile变量的写，先发生于读，这保证了volatile变量的可见性，简单的理解就是，volatile变量在每次被线程访问时，都强迫从主内存中读该变量的值，而当该变量发生变化时，又会强迫将最新的值刷新到主内存，任何时刻，不同的线程总是能够看到该变量的最新值。
   4. 线程启动规则：线程的start()方法先于它的每一个动作，即如果线程A在执行线程B的start方法之前修改了共享变量的值，那么当线程B执行start方法时，线程A对共享变量的修改对线程B可见。
