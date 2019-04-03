@@ -190,6 +190,7 @@ public class DriverTest{
   - 观察者模式：
 
 # 三、多线程
+- 创建一个线程的方式有三种：Thread、Runnable、Callable。
 - Java线程有五种基本状态（生命周期），下图是描述了线程各生命周期变化：
 ![线程生命周期](images/img01.jpg)
 - Java线程的五中基本状态：
@@ -202,7 +203,7 @@ public class DriverTest{
      3. 其他阻塞 -- 通过调用线程的sleep()或join()或发出了I/O请求时，线程会进入到阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态。
   5. 死亡状态（Dead）：线程执行完了或者因异常退出了run()方法，该线程结束生命周期。
 
-### Synchronization关键字底层原理
+### 1.synchronization关键字底层原理
 Java虚拟机中的同步(Synchronization)基于进入和退出管程(Monitor)对象实现，无论是显式同步(有明确的monitorenter和monitorexit指令，即同步代码块)还是隐式同步都是如此。在Java语言中，同步用的最多的地方可能是被synchronized修饰的同步方法。同步方法并不是由monitorenter和monitorexit指令来实现同步的，而是由方法调用指令读取运行时常量池中方法的ACC_SYNCHRONIZED标志来隐式实现的。在JVM中，对象在内存中的布局分为三块区域：对象头、实例数据和对齐填充。  
 ![实例对象](images/img04.png)
 
@@ -251,12 +252,7 @@ ObjectMonitor中有两个队列，_WaitSet和_EntryList，用来保存ObjectWait
 由此看来，monitor对象存在于每个Java对象的对象头中(存储的指针的指向)，synchronized锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为锁的原因，**同时也是notify/notifyAll/wait等方法存在于顶级对象Object中的原因**。
 [原文连接](https://blog.csdn.net/javazejian/article/details/72828483)
 
-
-### 2.多线程
-
-创建一个线程的方式：Thread、Runnable、Callable
-
-### 3.锁
+### 2.锁
     同步锁
     分段锁
     JAVA中锁的对比：https://www.cnblogs.com/zhimingyang/p/5702752.html
@@ -276,7 +272,7 @@ ObjectMonitor中有两个队列，_WaitSet和_EntryList，用来保存ObjectWait
 
 重入锁（ReetrantLock）：https://blog.csdn.net/javazejian/article/details/75043422
 
-### 4.线程池实现原理
+### 3.线程池实现原理
 
 
 # 四、网络篇
@@ -371,7 +367,7 @@ GC算法有那些。区别是？
 Java调优命令详解：https://blog.csdn.net/fenglibing/article/details/6411999
 https://blog.csdn.net/tzs_1041218129/article/details/61630981
 
-### 3.Java内存模型
+### 3.Java内存模型（JMM）
 - **方法区（Method Area）**：方法区与Java堆一样，是各个线程共享的内存区域，又称Non-Heap（非堆），用于存储已经被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码。根据Java虚拟机规范的规定，当方法区无法满足内存分配需求时，将抛出OutOfMemoryError异常。值得注意的是在方法区中存在一个叫运行时常量池(Runtime Constant Pool）的区域，它主要用于存放编译器生成的各种字面量和符号引用，这些内容将在类加载后存放到运行时常量池中，以便后续使用。
 - **JVM堆（Java Heap）**：Java堆是虚拟机所有管理的内存中最大的一块，也是被所有线程共享的一块内存区域，是在虚拟机启动时创建，此内存的唯一目的是存放对象实例。Java堆是垃圾收集器管理的主要区域，因此也被称做“GC堆”（Garbage Collected Heap）；Java中的GC一般都是使用分代收集算法；根据Java虚拟机规范规定，Java堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可。如果在堆中没有内存完成实例分配，并且堆也无法再扩展时，将会抛出OutOfMemoryError异常。
 - **程序计数器(Program Counter Register)**：程序计数器是一块较小的内存空间，用于记录Java中的每个线程当前执行的指令，各个线程相互独立，属于线程私有的数据区域；主要代表当前线程所执行的字节码行号指示器。字节码解释器工作时，通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。这也是唯一一个在Java虚拟机规范中没有规定任何OutOfMemoryError（内存溢出）情况的区域。
@@ -391,7 +387,6 @@ https://blog.csdn.net/tzs_1041218129/article/details/61630981
 volatile禁止重排优化
 volatile关键字另一个作用就是禁止指令重排优化，从而避免多线程环境下程序出现乱序执行的现象，关于指令重排优化前面已详细分析过，这里主要简单说明一下volatile是如何实现禁止指令重排优化的。先了解一个概念，内存屏障(Memory Barrier）。 
 内存屏障，又称内存栅栏，是一个CPU指令，它的作用有两个，一是保证特定操作的执行顺序，二是保证某些变量的内存可见性（利用该特性实现volatile的内存可见性）。由于编译器和处理器都能执行指令重排优化。如果在指令间插入一条Memory Barrier则会告诉编译器和CPU，不管什么指令都不能和这条Memory Barrier指令重排序，也就是说通过插入内存屏障禁止在内存屏障前后的指令执行重排序优化。Memory Barrier的另外一个作用是强制刷出各种CPU的缓存数据，因此任何CPU上的线程都能读取到这些数据的最新版本。总之，volatile变量正是通过内存屏障实现其在内存中的语义，即可见性和禁止重排优化。下面看一个非常典型的禁止重排优化的例子DCL，如下：
-
 
 
 ### 4.堆、栈：

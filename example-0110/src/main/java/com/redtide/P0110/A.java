@@ -1,5 +1,8 @@
 package com.redtide.P0110;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * Created by zsq on 2019-03-14.
  */
@@ -18,6 +21,12 @@ public class A{
         synchronized(i){
             i++;
         }
+
+        Lock lock = new ReentrantLock();
+        lock.lock();
+        lock.unlock();
+
+
     }
 
     static class Singleton{
