@@ -345,7 +345,7 @@ ObjectMonitor中有两个队列，_WaitSet和_EntryList，用来保存ObjectWait
 
 ### 2.GC管理
 GC算法有那些。区别是？
-
+查看当前JVM默认使用的GC：java -XX:+PrintCommandLineFlags -version
 - GC主要是对堆内存进行回收，现在收集器基本都是采用的分代收集算法，所以Java堆中还可以细分为新生代和老年代。
 
 **jstat**：JDK自带的一个轻量级监控工具。[更多](https://www.jianshu.com/p/213710fb9e40)  
@@ -366,6 +366,20 @@ GC算法有那些。区别是？
 
 Java调优命令详解：https://blog.csdn.net/fenglibing/article/details/6411999
 https://blog.csdn.net/tzs_1041218129/article/details/61630981
+
+jmap -dump:format=b,file=/Users/zsq/Downloads/dump.bin 96348
+
+(6) 每个 Java 应用程序都有一个 Runtime 类实例，使应用程序能够与其运行的环境相连接。可以通过 getRuntime 方法获取当前运行时。 Runtime.getRuntime().gc();
+(7) java.lang.System.gc()只是java.lang.Runtime.getRuntime().gc()的简写，两者的行为没有任何不同。
+
+
+谈到 Java 堆中的垃圾回收，自然要谈到引用。在 JDK1.2 之前，Java 中的引用定义很很纯粹：如果 reference 类型的数据中存储的数值代表的是另外一块内存的起始地址，就称这块内存代表着一个引用。但在 JDK1.2 之后，Java 对引用的概念进行了扩充，将其分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，引用强度依次减弱。
+- 强引用：如“Object obj = new Object（）”，这类引用是 Java 程序中最普遍的。只要强引用还存在，垃圾收集器就永远不会回收掉被引用的对象。
+- 软引用：它用来描述一些可能还有用，但并非必须的对象。在系统内存不够用时，这类引用关联的对象将被垃圾收集器回收。JDK1.2 之后提供了 SoftReference 类来实现软引用。
+- 弱引用：它也是用来描述非需对象的，但它的强度比软引用更弱些，被弱引用关联的对象只能生存岛下一次垃圾收集发生之前。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。在 JDK1.2 之后，提供了 WeakReference 类来实现弱引用。
+- 虚引用：最弱的一种引用关系，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例。为一个对象设置虚引用关联的唯一目的是希望能在这个对象被收集器回收时收到一个系统通知。JDK1.2 之后提供了 PhantomReference 类来实现虚引用。
+
+
 
 ### 3.Java内存模型（JMM）
 - **方法区（Method Area）**：方法区与Java堆一样，是各个线程共享的内存区域，又称Non-Heap（非堆），用于存储已经被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码。根据Java虚拟机规范的规定，当方法区无法满足内存分配需求时，将抛出OutOfMemoryError异常。值得注意的是在方法区中存在一个叫运行时常量池(Runtime Constant Pool）的区域，它主要用于存放编译器生成的各种字面量和符号引用，这些内容将在类加载后存放到运行时常量池中，以便后续使用。
@@ -502,4 +516,7 @@ a）保存
 # 十二、算法
 ### 1、CAS
 ### 2、红黑树
-### 3、 
+    https://www.cnblogs.com/skywang12345/p/3245399.html
+    https://www.cnblogs.com/CarpenterLee/p/5503882.html
+### 3、B树与B+树
+    http://www.cnblogs.com/yangecnu/p/Introduce-B-Tree-and-B-Plus-Tree.html

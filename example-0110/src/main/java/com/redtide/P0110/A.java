@@ -1,7 +1,13 @@
 package com.redtide.P0110;
 
+import java.util.BitSet;
+import java.util.Collections;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 /**
  * Created by zsq on 2019-03-14.
@@ -25,6 +31,13 @@ public class A{
         Lock lock = new ReentrantLock();
         lock.lock();
         lock.unlock();
+
+        TreeMap treeMap = new TreeMap();
+        SortedMap map = Collections.synchronizedSortedMap(treeMap);
+
+        BitSet bitSet = new BitSet();
+        bitSet.set(111);
+
 
 
     }

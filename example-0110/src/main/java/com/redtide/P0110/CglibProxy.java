@@ -24,5 +24,7 @@ public class CglibProxy{
 //        ArrayList<String> list = Arrays.asList("a","b");
 //        list.add("dd");
 //        System.out.println(list);
+
+
     }
 }
