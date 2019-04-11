@@ -417,6 +417,51 @@ volatile关键字另一个作用就是禁止指令重排优化，从而避免多
 ### 1.Spring
     IOC、AOP：https://blog.csdn.net/yuexianchang/article/details/77018603
     在Spring的AOP编程中，如果加入容器的目标对象有实现接口,用JDK代理；如果目标对象没有实现接口,用Cglib代理
+    
+Spring解决Bean循环依赖：https://blog.csdn.net/u010853261/article/details/77940767
+```java
+public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements SingletonBeanRegistry{
+    /** Cache of singleton objects: bean name to bean instance. */
+    /** 存放完全初始化好的bean，从该缓存中取出的bean可以直接使用 */
+    private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
+    
+    /** Cache of singleton factories: bean name to ObjectFactory. */
+    /** 存放bean工厂对象，用于解决循环依赖 */
+    private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
+    
+    /** Cache of early singleton objects: bean name to bean instance. */
+    /** 存放原始的bean对象(尚未填充属性),用于解决循环依赖 */
+    private final Map<String, Object> earlySingletonObjects = new HashMap<>(16);  
+    
+    /**
+     * Return the (raw) singleton object registered under the given name.
+     * <p>Checks already instantiated singletons and also allows for an early
+     * reference to a currently created singleton (resolving a circular reference).
+     * @param beanName the name of the bean to look for
+     * @param allowEarlyReference whether early references should be created or not
+     * @return the registered singleton object, or {@code null} if none found
+     */
+    @Nullable
+    protected Object getSingleton(String beanName, boolean allowEarlyReference) {
+        Object singletonObject = this.singletonObjects.get(beanName);
+        if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+            synchronized (this.singletonObjects) {
+                singletonObject = this.earlySingletonObjects.get(beanName);
+                if (singletonObject == null && allowEarlyReference) {
+                    ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
+                    if (singletonFactory != null) {
+                        singletonObject = singletonFactory.getObject();
+                        this.earlySingletonObjects.put(beanName, singletonObject);
+                        this.singletonFactories.remove(beanName);
+                    }
+                }
+            }
+        }
+        return singletonObject;
+    }
+}
+```
+    
 
 ### 2.Spring Boot
 
