@@ -1,7 +1,6 @@
 package com.redtide;
 
 import java.util.concurrent.LinkedTransferQueue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by zsq on 2019-04-14.
@@ -37,19 +36,19 @@ public class TransferQueueDemo{
     }
 
     public void consumer(){
-        AtomicInteger i = new AtomicInteger();
         new Thread(()->{
+            int i=0;
             String str;
             try{
                 while((str=queue.poll()) != null){
+                    i++;
                     System.out.println(str);
-                    i.incrementAndGet();
                 }
             }catch(Exception e){
                 e.printStackTrace();
             }
             etime = System.currentTimeMillis();
-            System.out.println("execute time : "+(etime-stime)+"  i="+i.get());
+            System.out.println("execute time : "+(etime-stime)+"  i="+i);
             System.exit(0);
         }).start();
     }
