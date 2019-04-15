@@ -1,6 +1,7 @@
 package com.redtide;
 
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by zsq on 2019-04-14.
@@ -22,24 +23,30 @@ public class BlockingQueueDemo{
     public void producer(){
         stime = System.currentTimeMillis();
         new Thread(()->{
-           for(int i=0;i<100000000;i++){
-               queue.offer("user : "+i);
-           }
-        }).start();
-    }
-
-    public void consumer(){
-        new Thread(()->{
-            String str;
             try{
-                while((str=queue.take()) != null){
-                    System.out.println(str);
+                for(int i=0;i<10000000;i++){
+                    queue.put("user : "+i);
                 }
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
+        }).start();
+    }
+
+    public void consumer(){
+        AtomicInteger i = new AtomicInteger();
+        new Thread(()->{
+            String str;
+            try{
+                while((str=queue.poll()) != null){
+                    System.out.println(str);
+                    i.incrementAndGet();
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             etime = System.currentTimeMillis();
-            System.out.println("execute time : "+(etime-stime));
+            System.out.println("execute time : "+(etime-stime)+"  i="+i.get());
             System.exit(0);
         }).start();
     }
