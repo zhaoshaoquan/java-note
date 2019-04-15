@@ -2,6 +2,9 @@ package com.redtide;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static java.lang.Thread.State.TERMINATED;
+import static java.lang.Thread.State.WAITING;
+
 /**
  * Created by zsq on 2019-04-14.
  */
@@ -15,13 +18,12 @@ public class BlockingQueueDemo{
     }
 
     public void start(){
-        this.producer();
-        this.consumer();
+        this.monitor(this.producer(),this.consumer());
     }
 
-    public void producer(){
+    public Thread producer(){
         stime = System.currentTimeMillis();
-        new Thread(()->{
+        Thread thread = new Thread(()->{
             try{
                 for(int i=0;i<10000000;i++){
                     queue.put("user : "+i);
@@ -29,24 +31,40 @@ public class BlockingQueueDemo{
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
-        }).start();
+        });
+        thread.start();
+        return thread;
     }
 
-    public void consumer(){
-        new Thread(()->{
-            int i=0;
+    public Thread consumer(){
+        Thread thread = new Thread(()->{
             String str;
             try{
-                while((str=queue.poll()) != null){
-                    i++;
+                while((str=queue.take()) != null){
                     System.out.println(str);
                 }
             }catch(Exception e){
                 e.printStackTrace();
             }
+        });
+        thread.start();
+        return thread;
+    }
+
+    public void monitor(Thread pThread,Thread cThread){
+        Thread thread = new Thread(()->{
+            while(pThread.getState()!=TERMINATED || cThread.getState()!=WAITING){
+                try{
+                    Thread.sleep(100);
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
             etime = System.currentTimeMillis();
-            System.out.println("execute time : "+(etime-stime)+"  i="+i);
+            System.out.println("execute time : "+(etime-stime));
             System.exit(0);
-        }).start();
+        });
+        thread.setDaemon(true);
+        thread.start();
     }
 }
