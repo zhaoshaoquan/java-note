@@ -168,6 +168,11 @@ public class DriverTest{
         
         这便是类加载的5个过程，而类加载器的任务是根据一个类的全限定名来读取此类的二进制字节流到JVM中，然后转换为一个与目标类对应的java.lang.Class对象实例，在虚拟机提供了3种类加载器，引导（Bootstrap）类加载器、扩展（Extension）类加载器、系统（System）类加载器（也称应用类加载器）
 
+### 12、Java SPI
+-SPI 全称为(Service Provider Interface),是JDK内置的一种服务提供发现机制。目前有不少框架用它来做服务的扩展发现，简单来说，它就是一种动态替换发现的机制。
+ServiceLoader
+META-INF/services/
+
    
 # 二、设计模式
 - Java的设计模式大体上分为三大类：
@@ -273,6 +278,7 @@ ObjectMonitor中有两个队列，_WaitSet和_EntryList，用来保存ObjectWait
 重入锁（ReetrantLock）：https://blog.csdn.net/javazejian/article/details/75043422
 
 ### 3.线程池实现原理
+    线程池和核心参数说明：https://www.jianshu.com/p/f97b5f7ce5a0
 
 
 # 四、网络篇
