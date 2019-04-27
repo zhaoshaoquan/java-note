@@ -168,11 +168,18 @@ public class DriverTest{
         
         这便是类加载的5个过程，而类加载器的任务是根据一个类的全限定名来读取此类的二进制字节流到JVM中，然后转换为一个与目标类对应的java.lang.Class对象实例，在虚拟机提供了3种类加载器，引导（Bootstrap）类加载器、扩展（Extension）类加载器、系统（System）类加载器（也称应用类加载器）
 
-### 12、Java SPI
+### 13、Java SPI
 -SPI 全称为(Service Provider Interface),是JDK内置的一种服务提供发现机制。目前有不少框架用它来做服务的扩展发现，简单来说，它就是一种动态替换发现的机制。
 ServiceLoader
 META-INF/services/
 
+### 14、序列化与反序列化
+- 虚拟机是否允许反序列化，不仅取决于类路径和功能代码是否一致，一个非常重要的一点是两个类的序列化ID是否一致（就是 private static final long serialVersionUID = 1L），如果不一至也不能反序列化成功。
+- 序列化并不保存静态变量是因为静态变量属于类的状态，序列化保存的是对象的状态，因此，序列化不保存静态变量。
+- 要想将父类对象也序列化，就需要让父类也实现Serializable接口。如果父类不实现的话的，就需要有默认的无参的构造函数。
+- 在序列化过程中，虚拟机会试图调用对象类里的writeObject和readObject方法，进行用户自定义的序列化和反序列化，如果没有这样的方法，则默认调用是ObjectOutputStream的defaultWriteObject方法以及ObjectInputStream的defaultReadObject方法。用户自定义的writeObject和readObject方法可以允许用户控制序列化的过程，比如可以在序列化的过程中动态改变序列化的数值。
+- Java序列化机制为了节省磁盘空间，具有特定的存储规则，当写入文件的为同一对象时，并不会再将对象的内容进行存储，而只是再次存储一份引用，上面增加的5字节的存储空间就是新增引用和一些控制信息的空间。
+   
    
 # 二、设计模式
 - Java的设计模式大体上分为三大类：
@@ -302,8 +309,49 @@ ObjectMonitor中有两个队列，_WaitSet和_EntryList，用来保存ObjectWait
 ### 5.JDK8新特性
     hashMap增加红黑树：https://blog.csdn.net/lch_2016/article/details/81045480
     新功能：http://ifeve.com/java-8-features-tutorial/
+    
+    Lambda 表达式：Lambda允许把函数作为一个方法的参数（函数作为参数传递进方法中。
+    方法引用 − 方法引用提供了非常有用的语法，可以直接引用已有Java类或对象（实例）的方法或构造器。与lambda联合使用，方法引用可以使语言的构造更紧凑简洁，减少冗余代码。
+    默认方法 − 默认方法就是一个在接口里面有了一个实现的方法。
+    新工具 − 新的编译工具，如：Nashorn引擎 jjs、 类依赖分析器jdeps。
+    Stream API −新添加的Stream API（java.util.stream） 把真正的函数式编程风格引入到Java中。
+    Date Time API − 加强对日期与时间的处理。
+    Optional 类 − Optional 类已经成为 Java 8 类库的一部分，用来解决空指针异常。
+    Nashorn, JavaScript 引擎 − Java 8提供了一个新的Nashorn javascript引擎，它允许我们在JVM上运行特定的javascript应用。
+    
 ### 6.JDK9新特性
     https://baijiahao.baidu.com/s?id=1593429162250494010&wfr=spider&for=pc
+    
+    模块系统：模块是一个包的容器，Java 9 最大的变化之一是引入了模块系统（Jigsaw 项目）。
+    REPL (JShell)：交互式编程环境。
+    HTTP 2 客户端：HTTP/2标准是HTTP协议的最新版本，新的 HTTPClient API 支持 WebSocket 和 HTTP2 流以及服务器推送特性。
+    改进的 Javadoc：Javadoc 现在支持在 API 文档中的进行搜索。另外，Javadoc 的输出现在符合兼容 HTML5 标准。
+    多版本兼容 JAR 包：多版本兼容 JAR 功能能让你创建仅在特定版本的 Java 环境中运行库程序时选择使用的 class 版本。
+    集合工厂方法：List，Set 和 Map 接口中，新的静态工厂方法可以创建这些集合的不可变实例。
+    私有接口方法：在接口中使用private私有方法。我们可以使用 private 访问修饰符在接口中编写私有方法。
+    进程 API: 改进的 API 来控制和管理操作系统进程。引进 java.lang.ProcessHandle 及其嵌套接口 Info 来让开发者逃离时常因为要获取一个本地进程的 PID 而不得不使用本地代码的窘境。
+    改进的 Stream API：改进的 Stream API 添加了一些便利的方法，使流处理更容易，并使用收集器编写复杂的查询。
+    改进 try-with-resources：如果你已经有一个资源是 final 或等效于 final 变量,您可以在 try-with-resources 语句中使用该变量，而无需在 try-with-resources 语句中声明一个新变量。
+    改进的弃用注解 @Deprecated：注解 @Deprecated 可以标记 Java API 状态，可以表示被标记的 API 将会被移除，或者已经破坏。
+    改进钻石操作符(Diamond Operator) ：匿名类可以使用钻石操作符(Diamond Operator)。
+    改进 Optional 类：java.util.Optional 添加了很多新的有用方法，Optional 可以直接转为 stream。
+    多分辨率图像 API：定义多分辨率图像API，开发者可以很容易的操作和展示不同分辨率的图像了。
+    改进的 CompletableFuture API ： CompletableFuture 类的异步机制可以在 ProcessHandle.onExit 方法退出时执行操作。
+    轻量级的 JSON API：内置了一个轻量级的JSON API
+    响应式流（Reactive Streams) API: Java 9中引入了新的响应式流 API 来支持 Java 9 中的响应式编程。
+    
+### 6.JDK10新特性
+    局部变量的类型推断:Java开始引用像脚本语言JavaScript中的var类型（弱类型），允许你通过var定义任何类型的变量。
+    应用类数据共享(CDS):CDS 在 JDK5 时被引进以改善 JVM 启动的表现，同时减少当多个虚拟机在同一个物理或虚拟的机器上运行时的资源占用。JDK10 将扩展 CDS 到允许内部系统的类加载器、内部平台的类加载器和自定义类加载器来加载获得的类。之前，CDS 的使用仅仅限制在了 bootstrap 的类加载器。
+    额外的 Unicode 语言标签扩展:这将改善 java.util.Locale 类和相关的 API 以实现额外 BCP47 语言标签的 Unicode 扩展。尤其是，货币类型，一周的第一天，区域覆盖和时区等标签现在将被支持。
+    根证书:在 JDK 中将提供一套默认的 CA 根证书。关键的安全部件，如 TLS ，在 OpenJDK 构建中将默认有效。这是 Oracle 正在努力确保 OpenJDK 二进制和 Oracle JDK 二进制功能上一样的工作的一部分，是一项有用的补充内容。
+    并行全垃圾回收器 G1:G1 是设计来作为一种低延时的垃圾回收器（但是如果它跟不上旧的堆碎片产生的提升速率的话，将仍然采用完整压缩集合）。在 JDK9 之前，默认的收集器是并行，吞吐，收集器。为了减少在使用默认的收集器的应用性能配置文件的差异，G1 现在有一个并行完整收集机制。
+    移除 Native-Header 自动生成工具:Java9 开始了一些对 JDK 的家务管理，这项特性是对它的延续。当编译 JNI 代码时，已不再需要单独的工具来生成头文件，因为这可以通过 javac 完成。在未来的某一时刻，JNI 将会被 Panama 项目的结果取代，但是何时发生还不清楚。
+    垃圾回收器接口:这不是让开发者用来控制垃圾回收的接口；而是一个在 JVM 源代码中的允许另外的垃圾回收器快速方便的集成的接口。
+    线程-局部变量管控:这是在 JVM 内部相当低级别的更改，现在将允许在不运行全局虚拟机安全点的情况下实现线程回调。这将使得停止单个线程变得可能和便宜，而不是只能启用或停止所有线程。
+    在备用存储装置上的堆分配: 硬件技术在持续进化，现在可以使用与传统 DRAM 具有相同接口和类似性能特点的非易失性 RAM 。这项 JEP 将使得 JVM 能够使用适用于不同类型的存储机制的堆。
+    试验性的基于 Java 的 JIT 编译器:最近宣布的 Metropolis 项目，提议用 Java 重写大部分 JVM 。乍一想，觉得很奇怪。如果 JVM 是用 Java 编写的，那么是否需要一个 JVM 来运行 JVM ？ 相应的，这导致了一个很好的镜像类比。 现实情况是，使用 Java 编写 JVM 并不意味着必须将其编译为字节码，你可以使用 AOT 编译，然后在运行时编译代码以提高性能。这项 JEP 将 Graal 编译器研究项目引入到 JDK 中。并给将 Metropolis 项目成为现实，使 JVM 性能与当前 C++ 所写版本匹敌（或有幸超越）提供基础。
+    合并 JDK 多个代码仓库到一个单独的储存库中: 在 JDK9 中，有 8 个仓库： root、corba、hotspot、jaxp、jaxws、jdk、langtools 和 nashorn 。在 JDK10 中这些将被合并为一个，使得跨相互依赖的变更集的存储库运行 atomic commit （原子提交）成为可能。
 
 
 # 六、JVM
