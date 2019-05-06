@@ -20,7 +20,7 @@
          
             
 - Set: 1.不允许重复对象
-    　　  2.无序容器，你无法保证每个元素的存储顺序，TreeSet通过 Comparator  或者 Comparable 维护了一个排序顺序。
+         2.无序容器，你无法保证每个元素的存储顺序，TreeSet通过 Comparator  或者 Comparable 维护了一个排序顺序。
          3.只允许一个 null 元素
          4.Set 接口最流行的几个实现类是 HashSet、LinkedHashSet 以及 TreeSet。最流行的是基于 HashMap 实现的 HashSet；
          TreeSet 还实现了 SortedSet 接口，因此 TreeSet 是一个根据其 compare() 和 compareTo() 的定义进行排序的有序容器。        
@@ -159,7 +159,7 @@ public class DriverTest{
   2. 扩展类加载器(Extension ClassLoader)：负责加载JAVA_HOME\lib\ext目录中的，或通过java.ext.dirs系统变量指定路径中的类库。
   3. 应用程序类加载器(Application ClassLoader)：也叫做系统类加载器，可以通过getSystemClassLoader()获取，负责加载用户路径（classpath）上的类库。如果没有自定义类加载器，一般这个就是默认的类加载器。
   
-  
+
         1. 加载：类加载过程的一个阶段：通过一个类的完全限定查找此类字节码文件，并利用字节码文件创建一个Class对象。
         2. 验证：目的在于确保Class文件的字节流中包含信息符合当前虚拟机要求，不会危害虚拟机自身安全。主要包括四种验证，文件格式验证，元数据验证，字节码验证，符号引用验证。
         3. 准备：为类变量(即static修饰的字段变量)分配内存并且设置该类变量的初始值即0(如static int i=5;这里只将i初始化为0，至于5的值将在初始化时赋值)，这里不包含用final修饰的static，因为final在编译的时候就会分配了，注意这里不会为实例变量分配初始化，类变量会分配在方法区中，而实例变量是会随着对象一起分配到Java堆中。
@@ -240,21 +240,21 @@ Java虚拟机中的同步(Synchronization)基于进入和退出管程(Monitor)�
 ```c++
 ObjectMonitor() {
     _header       = NULL;
-    _count        = 0; //记录个数
+    _count        = 0;    //记录个数
     _waiters      = 0,
     _recursions   = 0;
     _object       = NULL;
     _owner        = NULL;
-    _WaitSet      = NULL; //处于wait状态的线程，会被加入到_WaitSet
+    _WaitSet      = NULL; j//处于wait状态的线程，会被加入到_WaitSet
     _WaitSetLock  = 0 ;
-    _Responsible  = NULL ;
-    _succ         = NULL ;
-    _cxq          = NULL ;
-    FreeNext      = NULL ;
-    _EntryList    = NULL ; //处于等待锁block状态的线程，会被加入到该列表
-    _SpinFreq     = 0 ;
-    _SpinClock    = 0 ;
-    OwnerIsThread = 0 ;
+    _Responsible  = NULL;
+    _succ         = NULL;
+    _cxq          = NULL;
+    FreeNext      = NULL;
+    _EntryList    = NULL; //处于等待锁block状态的线程，会被加入到该列表
+    _SpinFreq     = 0;
+    _SpinClock    = 0;
+    OwnerIsThread = 0;
   }
 ```
 
