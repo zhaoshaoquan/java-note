@@ -287,6 +287,30 @@ ObjectMonitor中有两个队列，_WaitSet和_EntryList，用来保存ObjectWait
 ### 3.线程池实现原理
     线程池和核心参数说明：https://www.jianshu.com/p/f97b5f7ce5a0
 
+### 4.伪共享
+- JDK8之前使用**padding**方式
+```java
+/**
+ * long padding避免伪共享(false sharing)
+ */
+public final static class VolatileLong{
+    volatile long p0, p1, p2, p3, p4, p5, p6;
+    public volatile long value = 0L;
+    volatile long q0, q1, q2, q3, q4, q5, q6;
+}
+``` 
+- JDK8之后使用**@Contended**注释，注意使用该注释时需要加**-XX:-RestrictContended**参数
+```java
+/**
+ * JDK8新特性，Contended注解避免伪共享(false sharing)
+ * Restricted on user classpath
+ * Unlock: -XX:-RestrictContended
+ */
+@sun.misc.Contended
+public final static class VolatileLong{
+    public volatile long value = 0L;
+}
+```
 
 # 四、网络篇
 ### 1.TCP协议的三次握手
