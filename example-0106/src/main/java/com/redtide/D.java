@@ -8,12 +8,12 @@ import java.util.concurrent.*;
  */
 public class D{
     public static void main(String[] args)throws Exception{
-        FutureTask futureTask = new FutureTask(()->{
-            Thread.sleep(1000);
-            return new Random().nextInt();
-        });
+//        FutureTask futureTask = new FutureTask(()->{
+//            Thread.sleep(1000);
+//            return new Random().nextInt();
+//        });
 
-        new Thread(futureTask).start();
-        System.out.println(futureTask.get());
+//        new Thread(futureTask).start();
+//        System.out.println(futureTask.get());
     }
 }
