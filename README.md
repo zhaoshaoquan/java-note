@@ -346,7 +346,7 @@ public final static class VolatileLong{
 ### 6.JDK9新特性
     https://baijiahao.baidu.com/s?id=1593429162250494010&wfr=spider&for=pc
     
-    模块系统：模块是一个包的容器，Java 9 最大的变化之一是引入了模块系统（Jigsaw 项目）。
+    模块系统：模块是一个包的容器，Java 9最大的变化之一是引入了模块系统（Jigsaw 项目）。
     REPL (JShell)：交互式编程环境。
     HTTP 2 客户端：HTTP/2标准是HTTP协议的最新版本，新的 HTTPClient API 支持 WebSocket 和 HTTP2 流以及服务器推送特性。
     改进的 Javadoc：Javadoc 现在支持在 API 文档中的进行搜索。另外，Javadoc 的输出现在符合兼容 HTML5 标准。

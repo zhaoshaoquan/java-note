@@ -61,7 +61,7 @@ public class CyclicBarrierDemo1{
                 int size = val.size();
                 for(int i=0;i<size;i++){
                     sum += val.get(i);
-                    System.out.println(Thread.currentThread().getName()+" -> 当前统计第 "+i+" 个数据，当前总合是 "+sum);
+                    System.out.println(Thread.currentThread().getName()+" -> 当前统计第 "+i+" 个数据，当前总计是 "+sum);
                     Thread.sleep(1000);
                 }
                 System.out.println(Thread.currentThread().getName()+" -> 统计执行完成，等待处理中..."+sum);
