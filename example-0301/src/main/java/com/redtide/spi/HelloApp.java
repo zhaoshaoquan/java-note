@@ -1,5 +1,8 @@
 package com.redtide.spi;
 
+import sun.misc.Service;
+
+import java.util.Iterator;
 import java.util.ServiceLoader;
 
 /**
@@ -8,9 +11,13 @@ import java.util.ServiceLoader;
 public class HelloApp{
 
     public static void main(String[] args){
+        Iterator<Hello> providers = Service.providers(Hello.class);
+        while(providers.hasNext()){
+            System.out.println(providers.next().getName("Service"));
+        }
         ServiceLoader<Hello> loader = ServiceLoader.load(Hello.class);
         for(Hello h : loader){
-            System.out.println(h.getName("test"));
+            System.out.println(h.getName("ServiceLoader"));
         }
     }
 

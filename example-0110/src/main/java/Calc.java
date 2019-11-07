@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 /**
  * 1 + 2^(1+1) * 2 /(1 + (4 - 3))
- *
+ * 转换为逆波兰表达式为：1 2 1 1 + ^ 2 * 1 4 3 - + / +
  * Created by zsq on 2019-06-09.
  */
 public class Calc{
@@ -13,8 +13,7 @@ public class Calc{
         Scanner scanner = new Scanner(System.in);
         String str = scanner.nextLine();
         System.out.println("=> "+str);
-
-        System.out.println(new Calc().calc(str));
+        System.out.println("result = "+new Calc().calc(str));
     }
 
     public String calc(String str){
@@ -27,20 +26,18 @@ public class Calc{
             }
         }
 
-        System.out.println("=> "+list);
-
         List<String> result = new ArrayList<>();
         Stack<String> stack = new Stack();
         for(String s : list){
             if(this.isNumber(s)){
                 result.add(s);
             }else{
-                if(s.equals("(")){
-//                    stack.push(s);
-                }else if(s.equals(")")){
+                if("(".equals(s)){
+                    stack.push(s);
+                }else if(")".equals(s)){
                     while(!stack.isEmpty()){
                         String temp = stack.pop();
-                        if(!temp.equals("(")){
+                        if(!"(".equals(temp)){
                             result.add(temp);
                         }else{
                             break;
@@ -50,10 +47,8 @@ public class Calc{
                     if(stack.isEmpty()){
                         stack.push(s);
                     }else{
-                        if(this.precedence(stack.firstElement()) >= this.precedence(s)){
-                            while(!stack.isEmpty() && this.precedence(stack.firstElement()) >= this.precedence(s)){
-                                result.add(stack.pop());
-                            }
+                        while(!stack.isEmpty() && this.precedence(stack.lastElement()) >= this.precedence(s)){
+                            result.add(stack.pop());
                         }
                         stack.push(s);
                     }
@@ -64,45 +59,46 @@ public class Calc{
         while(!stack.isEmpty()){
             result.add(stack.pop());
         }
-
-        System.out.println("=> "+result);
-
+        System.out.println("RPN => "+result);
         return this.calc(result);
     }
 
 
     public String calc(List<String> rpnList){
         try{
-            Stack<String> numberStack = new Stack();
-
-            int length = rpnList.size();
-            for(int i = 0;i < length;i++){
-                String temp = rpnList.get(i);
-                if(isNumber(temp)){
-                    numberStack.push(temp);
+            Stack<String> numStack = new Stack();
+            int len = rpnList.size();
+            for(int i = 0;i < len;i++){
+                String operation = rpnList.get(i);
+                if(isNumber(operation)){
+                    numStack.push(operation);
                 }else{
-                    BigDecimal tempNumber1 = new BigDecimal(numberStack.pop());
-                    BigDecimal tempNumber2 = new BigDecimal(numberStack.pop());
-                    BigDecimal tempNumber = new BigDecimal("0");
+                    BigDecimal num1 = new BigDecimal(numStack.pop());
+                    BigDecimal num2 = new BigDecimal(numStack.pop());
+                    BigDecimal num0 = new BigDecimal("0");
 
-                    if(temp.equals("+")){
-                        tempNumber = tempNumber2.add(tempNumber1);
-                    }else if(temp.equals("-")){
-                        tempNumber = tempNumber2.subtract(tempNumber1);
-                    }else if(temp.equals("*")){
-                        tempNumber = tempNumber2.multiply(tempNumber1);
-                    }else if(temp.equals("/")){
-                        tempNumber = tempNumber2.divide(tempNumber1,2,2);
-                    }else if(temp.equals("^")){
-//                        tempNumber = tempNumber2.pow(tempNumber1.intValue());
+                    if("+".equals(operation)){
+                        num0 = num2.add(num1);
+                    }else if("-".equals(operation)){
+                        num0 = num2.subtract(num1);
+                    }else if("*".equals(operation)){
+                        num0 = num2.multiply(num1);
+                    }else if("/".equals(operation)){
+                        num0 = num2.divide(num1,2,BigDecimal.ROUND_DOWN);
+                    }else if("^".equals(operation)){
+                        num0 = num2.pow(num1.intValue());
                     }
-                    numberStack.push(tempNumber.toString());
+                    numStack.push(num0.toString());
                 }
             }
-            return numberStack.pop();
+            return numStack.pop();
         }catch(ArithmeticException e){
             return "Float.nan";
         }
+    }
+
+    private boolean isNumber(String str){
+        return Pattern.compile("^(-?\\d+)(\\.\\d+)?$").matcher(str).matches();
     }
 
     private int precedence(String str){
@@ -121,10 +117,6 @@ public class Calc{
             default:
                 return 0;
         }
-    }
-
-    private boolean isNumber(String str){
-        return Pattern.compile("^(-?\\d+)(\\.\\d+)?$").matcher(str).matches();
     }
 
 }

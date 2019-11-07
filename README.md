@@ -169,9 +169,23 @@ public class DriverTest{
         这便是类加载的5个过程，而类加载器的任务是根据一个类的全限定名来读取此类的二进制字节流到JVM中，然后转换为一个与目标类对应的java.lang.Class对象实例，在虚拟机提供了3种类加载器，引导（Bootstrap）类加载器、扩展（Extension）类加载器、系统（System）类加载器（也称应用类加载器）
 
 ### 13、Java SPI
--SPI 全称为(Service Provider Interface),是JDK内置的一种服务提供发现机制。目前有不少框架用它来做服务的扩展发现，简单来说，它就是一种动态替换发现的机制。
-ServiceLoader
-META-INF/services/
+- SPI 全称为(Service Provider Interface),是JDK内置的一种服务提供发现机制。目前有不少框架用它来做服务的扩展发现，简单来说，它就是一种动态替换发现的机制。
+  1. 在ClassPath路径下的META-INF/services/目录中添加一个文件。文件名与接口的全限定类名一至，文件内容是实现类的全限定类名，多个实现类用换行符分隔。
+
+```java
+public class HelloApp{
+    public static void main(String[] args){
+        Iterator<Hello> providers = Service.providers(Hello.class);
+        while(providers.hasNext()){
+            System.out.println(providers.next().getName("Service"));
+        }
+        ServiceLoader<Hello> loader = ServiceLoader.load(Hello.class);
+        for(Hello h : loader){
+            System.out.println(h.getName("ServiceLoader"));
+        }
+    }
+}
+```
 
 ### 14、序列化与反序列化
 - 虚拟机是否允许反序列化，不仅取决于类路径和功能代码是否一致，一个非常重要的一点是两个类的序列化ID是否一致（就是 private static final long serialVersionUID = 1L），如果不一至也不能反序列化成功。
