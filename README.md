@@ -222,11 +222,11 @@ public class HelloApp{
 - Java线程的五中基本状态：
   1. 新建状态（New）：当线程对象对创建后，即进入了新建状态，如：Thread t = new MyThread();
   2. 就绪状态（Runnable）：当调用线程对象的start()方法（t.start();），线程即进入就绪状态。处于就绪状态的线程，只是说明此线程已经做好了准备，随时等待CPU调度执行，并不是说执行了t.start()此线程立即就会执行。
-  3. 运行状态（Running）：当CPU开始调度处于就绪状态的线程时，此时线程才得以真正执行，即进入到运行状态。注：就     绪状态是进入到运行状态的唯一入口，也就是说，线程要想进入运行状态执行，首先必须处于就绪状态中。
-  4. 阻塞状态（Blocked）：处于运行状态中的线程由于某种原因，暂时放弃对CPU的使用权，停止执行，此时进入阻塞状态，直到其进入到就绪状态，才 有机会再次被CPU调用以进入到运行状态。根据阻塞产生的原因不同，阻塞状态又可以分为三种：
+  3. 运行状态（Running）：当CPU开始调度处于就绪状态的线程时，此时线程才得以真正执行，即进入到运行状态。注：就绪状态是进入到运行状态的唯一入口，也就是说，线程要想进入运行状态执行，首先必须处于就绪状态中。
+  4. 阻塞状态（Blocked）：处于运行状态中的线程由于某种原因，暂时放弃对CPU的使用权，停止执行，此时进入阻塞状态，直到其进入到就绪状态，才有机会再次被CPU调用以进入到运行状态。根据阻塞产生的原因不同，阻塞状态又可以分为三种：
      1. 等待阻塞：运行状态中的线程执行wait()方法，使本线程进入到等待阻塞状态。
-     2. 同步阻塞 -- 线程在获取synchronized同步锁失败(因为锁被其它线程所占用)，它会进入同步阻塞状态。
-     3. 其他阻塞 -- 通过调用线程的sleep()或join()或发出了I/O请求时，线程会进入到阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态。
+     2. 同步阻塞：线程在获取synchronized同步锁失败（因为锁被其它线程所占用），它会进入同步阻塞状态。
+     3. 其他阻塞：通过调用线程的sleep()或join()或发出了I/O请求时，线程会进入到阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态。
   5. 死亡状态（Dead）：线程执行完了或者因异常退出了run()方法，该线程结束生命周期。
 
 ### 1.synchronization关键字底层原理
@@ -259,7 +259,7 @@ ObjectMonitor() {
     _recursions   = 0;
     _object       = NULL;
     _owner        = NULL;
-    _WaitSet      = NULL; j//处于wait状态的线程，会被加入到_WaitSet
+    _WaitSet      = NULL; //处于wait状态的线程，会被加入到_WaitSet
     _WaitSetLock  = 0 ;
     _Responsible  = NULL;
     _succ         = NULL;
@@ -301,7 +301,7 @@ ObjectMonitor中有两个队列，_WaitSet和_EntryList，用来保存ObjectWait
 ### 3.线程池实现原理
     线程池和核心参数说明：https://www.jianshu.com/p/f97b5f7ce5a0
 
-### 4.伪共享
+### 4.伪共享(https://blog.csdn.net/u012233832/article/details/79619300)
 - JDK8之前使用**padding**方式
 ```java
 /**
@@ -436,7 +436,16 @@ public final static class VolatileLong{
     jmap
 
 ### 2.GC管理
-GC算法有那些。区别是？
+- 垃圾回收GC（Garbage Collection）算法（各算法的区别是？https://www.jianshu.com/p/6f2497695651）
+
+  1、引用计数算法（Reference Counting）
+  2、根搜索算法（GC Root Tracing）
+  3、标记-清除算法（Mark-Sweep）
+  4、复制算法（Copying）
+  5、标记-整理算法（Mark-Compact）
+  6、分代收集算法（Generational Collection）
+  
+
 查看当前JVM默认使用的GC：java -XX:+PrintCommandLineFlags -version
 - GC主要是对堆内存进行回收，现在收集器基本都是采用的分代收集算法，所以Java堆中还可以细分为新生代和老年代。
 
@@ -466,7 +475,7 @@ jmap -dump:format=b,file=/Users/zsq/Downloads/dump.bin 96348
 
 
 谈到 Java 堆中的垃圾回收，自然要谈到引用。在 JDK1.2 之前，Java 中的引用定义很很纯粹：如果 reference 类型的数据中存储的数值代表的是另外一块内存的起始地址，就称这块内存代表着一个引用。但在 JDK1.2 之后，Java 对引用的概念进行了扩充，将其分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，引用强度依次减弱。
-- 强引用：如“Object obj = new Object（）”，这类引用是 Java 程序中最普遍的。只要强引用还存在，垃圾收集器就永远不会回收掉被引用的对象。
+- 强引用：如“Object obj = new Object()”，这类引用是 Java 程序中最普遍的。只要强引用还存在，垃圾收集器就永远不会回收掉被引用的对象。
 - 软引用：它用来描述一些可能还有用，但并非必须的对象。在系统内存不够用时，这类引用关联的对象将被垃圾收集器回收。JDK1.2 之后提供了 SoftReference 类来实现软引用。
 - 弱引用：它也是用来描述非需对象的，但它的强度比软引用更弱些，被弱引用关联的对象只能生存岛下一次垃圾收集发生之前。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。在 JDK1.2 之后，提供了 WeakReference 类来实现弱引用。
 - 虚引用：最弱的一种引用关系，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例。为一个对象设置虚引用关联的唯一目的是希望能在这个对象被收集器回收时收到一个系统通知。JDK1.2 之后提供了 PhantomReference 类来实现虚引用。
