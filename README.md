@@ -313,7 +313,7 @@ public final static class VolatileLong{
     volatile long q0, q1, q2, q3, q4, q5, q6;
 }
 ``` 
-- JDK8之后使用**@Contended**注释，注意使用该注释时需要加**-XX:-RestrictContended**参数
+- JDK8之后使用 **@Contended** 注释，注意使用该注释时需要加 **-XX:-RestrictContended** 参数
 ```java
 /**
  * JDK8新特性，Contended注解避免伪共享(false sharing)
