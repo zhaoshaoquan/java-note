@@ -462,7 +462,7 @@ public final static class VolatileLong{
       -gcold              ：显示老年代和永久代的信息；
       -gcoldcapacity      ：显示老年代的大小；
       -gcutil             ：显示垃圾收集信息；
-      -gccause            ：显示垃圾回收的相关信息（通-gcutil）,同时显示最后一次或当前正在发生的垃圾回收的诱因；
+      -gccause            ：显示垃圾回收的相关信息（同-gcutil）,同时显示最后一次或当前正在发生的垃圾回收的诱因；
       -printcompilation   ：输出JIT编译的方法信息；
 
 Java调优命令详解：https://blog.csdn.net/fenglibing/article/details/6411999
@@ -590,7 +590,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 
 # 九、数据库
-### 1.索引
+### 1.MySQL
+    1、MySQL的引擎分为MyISAM和InnoDB，主键索引都是使用的B+Tree。
+    2、InnoDB主键索引属于聚集索引（叶子节点包含完整的数据记录），所以InnoDB要求表必需要有主键（MyISAM可以没有），如果没有显式指定主键，则MySQL会自动选择一个可以唯一的标识数据记录的列作为主键，如果存在这种列，则MySQL自动为InnoDB表生成一个隐含字段作为主键，字段长度为6字节（长整型）。
+    3、InnoDB与MyISAM索引不同的是InnoDB的辅助索引的data域存储相应记录主键值，而不是地址。
+    4、MyISAM加锁是表级锁，InnoDB加锁是行级锁。
 ### 2.查询优化
     数据库集中在 索引那部分，和查询优化。
 ### 3.锁机制
