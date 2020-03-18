@@ -301,7 +301,10 @@ ObjectMonitor中有两个队列，_WaitSet和_EntryList，用来保存ObjectWait
 ### 3.线程池实现原理
     线程池和核心参数说明：https://www.jianshu.com/p/f97b5f7ce5a0
 
-### 4.伪共享(https://blog.csdn.net/u012233832/article/details/79619300)
+### 4.[伪共享](https://blog.csdn.net/u012233832/article/details/79619300)
+
+CPU缓存系统中是以缓存行（cache line）为单位存储的。目前主流的CPU缓存（Cache）的Cache Line大小都是64Bytes。在多线程情况下，如果需要修改“共享同一个缓存行的变量”，就会无意中影响彼此的性能，这就是伪共享（False Sharing）。
+
 - JDK8之前使用**padding**方式
 ```java
 /**

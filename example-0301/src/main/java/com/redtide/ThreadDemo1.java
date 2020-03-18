@@ -3,12 +3,12 @@ package com.redtide;
 /**
  * Created by zsq on 2019-04-11.
  */
-public class ThreadDemo01{
+public class ThreadDemo1{
     private String lock1 = new String("1");
     private String lock2 = new String("1");
 
     public static void main(String[] args){
-        new ThreadDemo01().method1();
+        new ThreadDemo1().method1();
     }
 
     public void method1(){

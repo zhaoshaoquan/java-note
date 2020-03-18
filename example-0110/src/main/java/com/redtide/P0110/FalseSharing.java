@@ -5,13 +5,13 @@ package com.redtide.P0110;
  * Created by zsq on 2019-05-13.
  */
 public class FalseSharing implements Runnable{
-    public final static int NUM_THREADS = 4; // change
+    public final static int NUM_THREADS = 10; // change
     public final static long ITERATIONS = 500L * 1000L * 1000L;
     private final int arrayIndex;
 
 //    private static VolatileLong[] longs = new VolatileLong[NUM_THREADS];
 //    private static VolatileLong2[] longs = new VolatileLong2[NUM_THREADS];
-        private static VolatileLong3[] longs = new VolatileLong3[NUM_THREADS];
+    private static VolatileLong3[] longs = new VolatileLong3[NUM_THREADS];
 
     static{
         for(int i = 0;i < longs.length;i++){
@@ -27,7 +27,7 @@ public class FalseSharing implements Runnable{
 
     public static void main(final String[] args) throws Exception{
         long start = System.nanoTime();
-        runTest();
+        FalseSharing.runTest();
         System.out.println("duration = " + (System.nanoTime() - start));
     }
 

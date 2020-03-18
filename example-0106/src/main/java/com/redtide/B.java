@@ -18,6 +18,8 @@ public class B{
 //        }
 //        System.out.println(unsafe);
 //        unsafe.allocateInstance()
+        System.out.println(Long.toBinaryString(Long.MAX_VALUE));
+        System.out.println(Long.toBinaryString(Long.MIN_VALUE));
 
         int i = 10;
         System.out.println(i);

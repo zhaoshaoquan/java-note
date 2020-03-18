@@ -21,5 +21,6 @@ public class C{
         System.out.println(Integer.toBinaryString(-4));
         System.out.println(Integer.toBinaryString(Integer.MAX_VALUE));
         System.out.println(Integer.toBinaryString(Integer.MIN_VALUE));
+
     }
 }
