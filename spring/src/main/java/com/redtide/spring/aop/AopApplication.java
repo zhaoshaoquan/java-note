@@ -4,8 +4,6 @@ import com.redtide.spring.aop.config.AppConfig;
 import com.redtide.spring.aop.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.io.IOException;
-
 /**
  * SpringAOP
  * Created by zsq on 2020/3/18.
@@ -25,12 +23,8 @@ public class AopApplication{
         userService.delete("1");
         System.out.println(userService.find("1"));
 
-        try{
-            System.in.read();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Input Context : "+scanner.nextLine());
     }
 
 }

@@ -4,13 +4,16 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+
 /**
  * 日志切面
  * Created by zsq on 2020/3/18.
  */
 @Aspect
 @Component
-public class LoggerAspects{
+public class LoggerAspects implements InvocationHandler{
 
     /**
      * 匹配com.redtide.spring.aop.service包下的所有类的方法
@@ -110,5 +113,11 @@ public class LoggerAspects{
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public Object invoke(Object proxy,Method method,Object[] args) throws Throwable{
+        System.out.println("LoggerAspects.invoke");
+        return null;
     }
 }
